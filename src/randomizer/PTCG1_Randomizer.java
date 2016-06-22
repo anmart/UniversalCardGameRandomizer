@@ -5,14 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 
-public class RomRandomizer {
+public class PTCG1_Randomizer {
 
 	byte[] rom;
 	MonCardData[] mons;
@@ -25,13 +24,13 @@ public class RomRandomizer {
 	
 	Move blankMove = new Move();
 	
-	public RomRandomizer(String location){
+	public PTCG1_Randomizer(File game){
 
 		rand = new Random();
 		
 		try {
 
-			rom = Files.readAllBytes(Paths.get(location));
+			rom = Files.readAllBytes(game.toPath());
 			parseMons();
 
 		} catch (IOException e) {
@@ -64,7 +63,7 @@ public class RomRandomizer {
 	public void parseMons(){
 		//first pokemon is at 16x30e28 10x200232
 		//last pokemon is at 16x33d62 10x212322
-		//at 16x41 bytes a pop, that puts us at 186 pokemon
+		//at 16x41 bytes a pop, that puts us at 187 pokemon
 
 		mons = new MonCardData[monAmount];
 
