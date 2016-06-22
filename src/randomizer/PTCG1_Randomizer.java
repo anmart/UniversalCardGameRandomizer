@@ -301,8 +301,12 @@ public class PTCG1_Randomizer {
 	
 	
 	public void randomizeHP(int low, int high){
-		for(int i = 0; i < mons.length; i++)
-			mons[i].hp =(byte) ((int)(rand.nextInt(high-low) + low)*10);
+		for(int i = 0; i < mons.length; i++){
+			if(low == high)
+				mons[i].hp =(byte) (low);
+			else
+				mons[i].hp =(byte) ((int)(rand.nextInt(high-low) + low));
+		}
 	}
 	
 	public void SanquiRemoveTutorialFromRom(){
