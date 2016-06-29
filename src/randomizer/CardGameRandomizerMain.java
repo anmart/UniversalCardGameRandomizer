@@ -21,6 +21,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
+import randomizer.Pokemon_TCG.PTCG1_UI;
+
 public class CardGameRandomizerMain extends JFrame {
 
 	JPanel starterPanel;
@@ -55,7 +57,7 @@ public class CardGameRandomizerMain extends JFrame {
 		fc = new JFileChooser();
 		fc.setDialogTitle("Choose Rom");
 		fc.setApproveButtonText("Choose");
-		fc.setFileFilter(new FileFilter() {
+		fc.addChoosableFileFilter(new FileFilter() {
 
 			   public String getDescription() {
 			       return "Gameboy rom (*.gbc)";
@@ -70,6 +72,22 @@ public class CardGameRandomizerMain extends JFrame {
 			       }
 			   }
 			});
+		fc.addChoosableFileFilter(new FileFilter() {
+
+			   public String getDescription() {
+			       return "Playstation ISO (*.iso)";
+			   }
+
+			   public boolean accept(File f) {
+			       if (f.isDirectory()) {
+			           return true;
+			       } else {
+			           String filename = f.getName().toLowerCase();
+			           return filename.endsWith(".iso");
+			       }
+			   }
+			});
+
 		
 		starterPanel = new JPanel();
 		starterPanel.setPreferredSize(new Dimension(200,50));
@@ -99,6 +117,9 @@ public class CardGameRandomizerMain extends JFrame {
 			File game = fc.getSelectedFile();
 			if(game.getPath().endsWith(".gbc") || game.getPath().endsWith(".gb"))
 				parseGB(game);
+			if(game.getPath().endsWith(".iso"))
+				parseISO(game);
+			
 			
 			// either way, reset location.
 			this.setLocationRelativeTo(null);
@@ -145,8 +166,17 @@ public class CardGameRandomizerMain extends JFrame {
 		else{
 			JOptionPane.showMessageDialog(null, "Error: not a valid rom.");
 		}
+	}
+	
+	public void parseISO(File file){
 		
-		
+		//for now, I don't know anything about PS Headers, so just create a DOTR randomizer.
+		RandomizerUI replace = new DOTR_UI();
+		replace.setFile(file);
+		replace.setFileChooser(fc);
+		this.remove(starterPanel);
+		this.add(replace);
+		this.pack();
 		
 	}
 

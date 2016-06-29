@@ -1,4 +1,7 @@
-package randomizer;
+package randomizer.Pokemon_TCG;
+
+import randomizer.Word;
+
 
 public class Move {
 
@@ -33,23 +36,20 @@ public class Move {
 		unknownByte1 = 0x00;
 		unknownByte2 = 0x00;
 	}
-	
 	public Move(byte[] rom, int startIndex,int stage){
 		
 		int c = startIndex;
 		
-		//System.out.print(c);
 		energy_fg = rom[c++];
 		energy_lw = rom[c++];
 		energy_fp = rom[c++];
 		energy_c_ = rom[c++];
-		name = new Word(rom,c); c+=2;
-		description = new Word(rom,c); c+=2;
-		description_extended = new Word(rom,c); c+=2;
+		name = new Word(rom,c,true); c+=2;
+		description = new Word(rom,c,true); c+=2;
+		description_extended = new Word(rom,c,true); c+=2;
 		damage = rom[c++];
 		category = rom[c++];
-		//jSystem.out.println(", "+ c +", " + (0xFF & category) + ", " + (0xFF & name.high) + ", " + (0xFF & name.low) );
-		effectCommands = new Word(rom,c); c+=2;
+		effectCommands = new Word(rom,c,true); c+=2;
 		flag1 = rom[c++];
 		flag2 = rom[c++];
 		flag3 = rom[c++];
@@ -61,8 +61,6 @@ public class Move {
 		
 		
 	}
-	
-	
 	public void writeToRom(byte[] rom, int startIndex){
 		
 		int c = startIndex;
@@ -84,26 +82,36 @@ public class Move {
 		rom[c++] = unknownByte2;
 		
 	}
-	
+	public static int[] getEnergyFromFlag(byte fg,byte lw, byte fp, byte c_){
+		int[] retVals = new int[7];
+		retVals[0] = getEnergyFromUpperFlag(fg);
+		retVals[1] = getEnergyFromLowerFlag(fg);
+		retVals[2] = getEnergyFromUpperFlag(lw);
+		retVals[3] = getEnergyFromLowerFlag(lw);
+		retVals[4] = getEnergyFromUpperFlag(fp);
+		retVals[5] = getEnergyFromLowerFlag(fp);
+		retVals[6] = getEnergyFromUpperFlag(c_);
+		return retVals;
+	}
+	public static int getEnergyFromUpperFlag(byte in){
+		return (in & 0xF0)/16;//this converts in to an integer, then only takes the second nibble
+		//divides by 16 because that's how they were stored		
+	}
+	public static int getEnergyFromLowerFlag(byte in){
+		return (in & 0x0F);
+
+	}
 	public int getStage(){
 		return ownerStage;
 	}
 	public boolean isPokePower(){
 		return (0xFF & category) == 4;
 	}
-	public boolean isExists(){
-		//if(name.isNothing())
-			//System.out.println("" + pokedexNumber);
-		
-		
-		return !name.isNothing();
-		
+	public boolean isExists(){		
+		return !name.isNothing();	
 	}
-	
 	public int[] getEnergyAmounts(){
-		
-		return Util.getEnergyFromFlag(energy_fg, energy_lw, energy_fp, energy_c_);
-		
+		return getEnergyFromFlag(energy_fg, energy_lw, energy_fp, energy_c_);
 	}
 	
 	

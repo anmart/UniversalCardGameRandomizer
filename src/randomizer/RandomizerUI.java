@@ -23,7 +23,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
-public class RandomizerUI extends JPanel {
+public abstract class RandomizerUI extends JPanel {
 	public JFileChooser fc;
 	public File gameFile;
 	
@@ -34,4 +34,8 @@ public class RandomizerUI extends JPanel {
 	public void setFile(File f){
 		gameFile = f;
 	}
+	
+	
+	
+	public abstract void saveRom();
 }

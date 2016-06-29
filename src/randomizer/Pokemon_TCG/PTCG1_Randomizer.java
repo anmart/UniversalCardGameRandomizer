@@ -1,4 +1,4 @@
-package randomizer;
+package randomizer.Pokemon_TCG;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
+import randomizer.Word;
 
 
 public class PTCG1_Randomizer {
@@ -283,7 +285,7 @@ public class PTCG1_Randomizer {
 		ArrayList<Word> deckPointers = new ArrayList<Word>();
 		
 		for(int i = 0; i < deckPointerAmount; i++){
-			deckPointers.add(new Word(rom,i*2 + deckPointerStartLocation));
+			deckPointers.add(new Word(rom,i*2 + deckPointerStartLocation, true));
 		}
 		
 		Collections.shuffle(deckPointers);

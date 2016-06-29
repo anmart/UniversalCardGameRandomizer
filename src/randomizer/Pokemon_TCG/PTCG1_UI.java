@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package randomizer;
+package randomizer.Pokemon_TCG;
 
 import java.io.File;
 
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
+
+import randomizer.RandomizerUI;
 
 /**
  *
