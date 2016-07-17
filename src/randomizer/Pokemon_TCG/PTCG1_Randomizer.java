@@ -26,9 +26,9 @@ public class PTCG1_Randomizer {
 	
 	Move blankMove = new Move();
 	
-	public PTCG1_Randomizer(File game){
+	public PTCG1_Randomizer(File game, String seed){
 
-		rand = new Random();
+		rand = new Random(seed.hashCode());
 		
 		try {
 
@@ -109,7 +109,7 @@ public class PTCG1_Randomizer {
 		}
 
 		//randomize setList
-		Collections.shuffle(setList);
+		Collections.shuffle(setList, rand);
 		for(MonCardData mon : mons){
 			mon.set = setList.get(0);
 			setList.remove(0);
@@ -132,8 +132,8 @@ public class PTCG1_Randomizer {
 		}
 
 		
-		Collections.shuffle(moveList);
-		Collections.shuffle(monList);
+		Collections.shuffle(moveList, rand);
+		Collections.shuffle(monList, rand);
 		for(int i = moveList.size()-1; i >= 0; i--){
 			if(moveList.get(i).isPokePower()){
 				moveList.add(moveList.remove(i++));//move it to the back of the list
@@ -288,7 +288,7 @@ public class PTCG1_Randomizer {
 			deckPointers.add(new Word(rom,i*2 + deckPointerStartLocation, true));
 		}
 		
-		Collections.shuffle(deckPointers);
+		Collections.shuffle(deckPointers, rand);
 		
 		//now save over the deck pointers on rom
 		for(int i = 0; i < deckPointerAmount; i++){
