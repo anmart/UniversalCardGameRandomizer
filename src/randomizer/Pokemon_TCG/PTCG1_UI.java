@@ -535,7 +535,9 @@ public class PTCG1_UI extends RandomizerUI {
 
     public void saveRom(){
 
-		PTCG1_Randomizer rando = new PTCG1_Randomizer(gameFile);
+		PTCG1_Randomizer rando = new PTCG1_Randomizer(gameFile, textSeed.getText());
+		textSeed.setText(rando.randSeed);
+		
 
 		//prepatch stuff here
 		if(deleteInvisibleWall.isSelected()){
@@ -554,8 +556,11 @@ public class PTCG1_UI extends RandomizerUI {
 		}
 
 
-
 		//Random stuff here
+		if(randomizeWarps.isSelected()){
+			rando.randomizeWarps();
+		}
+		
 		if(randomizeHealth.isSelected()){
 			rando.randomizeHP((Integer)((SpinnerNumberModel)healthLow.getModel()).getNumber(), (Integer) ((SpinnerNumberModel)healthHigh.getModel()).getNumber());
 		}

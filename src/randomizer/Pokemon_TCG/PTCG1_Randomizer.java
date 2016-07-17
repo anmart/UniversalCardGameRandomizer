@@ -23,12 +23,22 @@ public class PTCG1_Randomizer {
 	int monSize = 65;
 
 	Random rand;
+	String randSeed;
 	
 	Move blankMove = new Move();
 	
 	public PTCG1_Randomizer(File game, String seed){
 
-		rand = new Random(seed.hashCode());
+		if(!seed.equals("")){
+			rand = new Random(seed.hashCode());
+			randSeed = seed;
+		}
+		else{
+			rand = new Random();
+			randSeed = "" + rand.nextInt(); 
+			rand = new Random(randSeed.hashCode());
+			// doing it fairly roundabout like this lets the user see what seed was used if none was set
+		}
 		
 		try {
 
@@ -96,6 +106,89 @@ public class PTCG1_Randomizer {
 		mons[mrMimeLoc].move2 = blankMove;
 	}
 
+	public void randomizeWarps(){
+		// consider adding Overworld map indices to this too
+		int warpDataStartLoc = 0x1c0dd;
+		int roomAmount = 33;
+		
+		// not sure if this is bad practice but I didn't want a class that was everywhere and unrelated to all but this method
+		// if we ever come up with more warp shenanigans then move this to its own class file, but I can't envision it happening any time soon
+		class WarpRoom{		
+			class  WarpEntry{
+				byte xCurrent, yCurrent, connection_id, xNew, yNew;
+				public WarpEntry(byte[] rom, int startLoc){
+					xCurrent = rom[startLoc++];
+					yCurrent = rom[startLoc++];
+					connection_id = rom[startLoc++];
+					xNew = rom[startLoc++];
+					yNew = rom[startLoc++];
+				}
+				public void writeWarpEntry(byte[] rom, int startLoc){
+					rom[startLoc++] = xCurrent;
+					rom[startLoc++] = yCurrent;
+					rom[startLoc++] = connection_id;
+					rom[startLoc++] = xNew;
+					rom[startLoc++] = yNew;
+				}
+			}
+			
+			public ArrayList<WarpEntry> warps = new ArrayList<WarpEntry>();
+			
+			public int interpretWarps(byte[] rom, int startLoc){
+				
+				while(rom[startLoc] != 0 || rom[startLoc+1] != 0){
+					warps.add(new WarpEntry(rom, startLoc));
+					startLoc += 5;
+				}
+				startLoc += 2;
+				return startLoc;
+			}
+			
+			public int writeWarps(byte[] rom, int startLoc){
+				for(int i = 0; i < warps.size(); i++){
+					warps.get(i).writeWarpEntry(rom, startLoc);
+					startLoc+=5;
+				}
+				
+				startLoc += 2; //since the terminators are already in the code we don't need to rewrite them
+				return startLoc;
+			}
+			
+		}
+		
+		WarpRoom[] rooms = new WarpRoom[roomAmount];
+		int startLoc = warpDataStartLoc;
+		for(int i = 0; i < roomAmount; i++){
+			rooms[i] = new WarpRoom();
+			startLoc = rooms[i].interpretWarps(rom, startLoc);
+		}
+		
+		//a little inefficient but w/e, this is why it's beta :^)
+		ArrayList<WarpRoom.WarpEntry> setList = new ArrayList<WarpRoom.WarpEntry>();
+		for(int i = 0; i < roomAmount; i++){
+			for(int j = 0; j < rooms[i].warps.size(); j++){
+				setList.add(rooms[i].warps.get(j));
+			}
+		}
+		
+		// setting the values back
+		Collections.shuffle(setList, rand);
+		for(int i = 0; i < roomAmount; i++){
+			for(int j = 0; j < rooms[i].warps.size(); j++){
+				rooms[i].warps.get(j).connection_id = setList.get(0).connection_id;
+				rooms[i].warps.get(j).xNew = setList.get(0).xNew;
+				rooms[i].warps.get(j).yNew = setList.get(0).yNew;
+				setList.remove(0);
+			}
+		}
+		
+		// saving
+		startLoc = warpDataStartLoc;
+		for(int i = 0; i < roomAmount; i++){
+			startLoc = rooms[i].writeWarps(rom, startLoc);
+		}
+		
+	}
 
 	public void randomizeAllSets(){
 		//Note: randomizes sets in a way that there are the exact same amount of pokemon in each set.
