@@ -21,7 +21,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
+import randomizer.DOTR.DOTR_UI;
 import randomizer.Pokemon_TCG.PTCG1_UI;
+import randomizer.YGO8.YGO8_Randomizer;
+import randomizer.YGO8.YGO8_UI;
 
 public class CardGameRandomizerMain extends JFrame {
 
@@ -87,7 +90,21 @@ public class CardGameRandomizerMain extends JFrame {
 			       }
 			   }
 			});
+		fc.addChoosableFileFilter(new FileFilter() {
 
+			   public String getDescription() {
+			       return "Gameboy Advance rom (*.gba)";
+			   }
+
+			   public boolean accept(File f) {
+			       if (f.isDirectory()) {
+			           return true;
+			       } else {
+			           String filename = f.getName().toLowerCase();
+			           return filename.endsWith(".gba");
+			       }
+			   }
+			});
 		
 		starterPanel = new JPanel();
 		starterPanel.setPreferredSize(new Dimension(200,50));
@@ -117,6 +134,8 @@ public class CardGameRandomizerMain extends JFrame {
 			File game = fc.getSelectedFile();
 			if(game.getPath().endsWith(".gbc") || game.getPath().endsWith(".gb"))
 				parseGB(game);
+			if(game.getPath().endsWith(".gba"))
+				parseGBA(game);
 			if(game.getPath().endsWith(".iso"))
 				parseISO(game);
 			
@@ -142,7 +161,7 @@ public class CardGameRandomizerMain extends JFrame {
 			gbgame.skip(gbHeadStart);
 			gbgame.read(headName);
 			headText = new String(headName,Charset.forName("US-ASCII")); // not sure this works, found on stack overflow
-			
+			gbgame.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -178,6 +197,45 @@ public class CardGameRandomizerMain extends JFrame {
 		this.add(replace);
 		this.pack();
 		
+	}
+	
+	public void parseGBA(File file){
+		int gbaHeadStart = 0xa0;
+		int gbaHeadSize = 0xc;
+		FileInputStream gbagame;
+		String headText = "";
+		try {
+			byte[] headName = new byte[gbaHeadSize];
+			gbagame = new FileInputStream(file);
+			gbagame.skip(gbaHeadStart);
+			gbagame.read(headName);
+			headText = new String(headName,Charset.forName("US-ASCII")); // not sure this works, found on stack overflow
+			gbagame.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		RandomizerUI replace = null;
+		if(headText.equalsIgnoreCase("YUGIOH DM8\0\0")){
+			replace = new YGO8_UI();
+			new YGO8_Randomizer(file);
+		}
+		
+		if(replace != null){
+			replace.setFile(file);
+			replace.setFileChooser(fc);
+			this.remove(starterPanel);
+			this.add(replace);
+			this.pack();
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Error: not a valid rom.");
+		}
 	}
 
 }

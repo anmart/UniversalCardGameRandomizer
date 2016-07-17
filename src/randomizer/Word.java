@@ -50,5 +50,7 @@ public class Word {
 	public byte getHigh(){
 		return high;
 	}
-	
+	public String toString(){
+		return "" + (0xFFFF & ((0xFF00 & high << 8) + (low & 0xFF)));
+	}
 }

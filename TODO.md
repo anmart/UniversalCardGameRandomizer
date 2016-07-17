@@ -7,3 +7,8 @@
 
 -Change icon from default java icon  
 -Make randomizer UI friendlier  
+
+-Fix Capitalization Consistency
+-Grey out unavailable options
+-Add modularity for roms of other regions
+	-probably an offset file with the title as the region or something like that

@@ -307,7 +307,7 @@ public class PTCG1_Randomizer {
 			if(low == high)
 				mons[i].hp =(byte) (low);
 			else
-				mons[i].hp =(byte) ((int)(rand.nextInt(high-low) + low));
+				mons[i].hp =(byte) ((int)(rand.nextInt((high-low)/10)*10 + low));
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package randomizer;
+package randomizer.DOTR;
 
 public class DOTR_Randomizer {
 /*

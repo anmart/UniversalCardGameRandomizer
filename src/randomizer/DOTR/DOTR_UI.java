@@ -1,4 +1,6 @@
-package randomizer;
+package randomizer.DOTR;
+
+import randomizer.RandomizerUI;
 
 public class DOTR_UI extends RandomizerUI {
 

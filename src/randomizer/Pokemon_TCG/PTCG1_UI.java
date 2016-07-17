@@ -36,6 +36,7 @@ public class PTCG1_UI extends RandomizerUI {
 
         moveCost_buttons = new javax.swing.ButtonGroup();
         randomizeMovesGroup = new javax.swing.ButtonGroup();
+        metronomeMoves = new javax.swing.ButtonGroup();
         tabs = new javax.swing.JTabbedPane();
         prepatch_panel = new javax.swing.JPanel();
         deleteInvisibleWall = new javax.swing.JCheckBox();
@@ -45,6 +46,10 @@ public class PTCG1_UI extends RandomizerUI {
         movesCostNothing = new javax.swing.JRadioButton();
         jSeparator2 = new javax.swing.JSeparator();
         sanquiTutorialPatch = new javax.swing.JCheckBox();
+        deleteMetronome = new javax.swing.JRadioButton();
+        setMetronomeAmount = new javax.swing.JRadioButton();
+        metronomeAmount = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         randomize_panel = new javax.swing.JPanel();
         randomizeHealth = new javax.swing.JCheckBox();
         healthLow = new javax.swing.JSpinner();
@@ -52,13 +57,35 @@ public class PTCG1_UI extends RandomizerUI {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         randomizeSets = new javax.swing.JCheckBox();
-        randomizeDecks = new javax.swing.JCheckBox();
         jSeparator3 = new javax.swing.JSeparator();
         dontRandomizeMoves = new javax.swing.JRadioButton();
         randomizeMovesInStages = new javax.swing.JRadioButton();
         randomizeMovesFully = new javax.swing.JRadioButton();
+        allowGlitchHPs = new javax.swing.JCheckBox();
+        movesCostSameAsType = new javax.swing.JCheckBox();
+        evosHaveMoreHP = new javax.swing.JCheckBox();
+        randomizeWeakness = new javax.swing.JCheckBox();
+        randomizeResistance = new javax.swing.JCheckBox();
+        randomizeRetreatCost = new javax.swing.JCheckBox();
+        randomizePokemonTypes = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        preserveStarterDecks = new javax.swing.JCheckBox();
+        randomizeDecks = new javax.swing.JCheckBox();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        randomizeWarps = new javax.swing.JCheckBox();
+        randomizeEvolutions = new javax.swing.JCheckBox();
+        keepEvolutionsMonotype = new javax.swing.JCheckBox();
+        setMaxEvolutionChain = new javax.swing.JCheckBox();
+        maxEvolutionChainValue = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         saveRom = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        textSeed = new javax.swing.JTextField();
 
         deleteInvisibleWall.setText("Delete Mr. Mime's Invisible Wall ability");
         deleteInvisibleWall.setToolTipText("Note: only Mr. Mime can use this ability anywa");
@@ -78,44 +105,71 @@ public class PTCG1_UI extends RandomizerUI {
         sanquiTutorialPatch.setText("Remove tutorial");
         sanquiTutorialPatch.setToolTipText("Credit: Sanquii");
 
+        metronomeMoves.add(deleteMetronome);
+        deleteMetronome.setText("Delete Metronome");
+        deleteMetronome.setToolTipText("Removes Metronome for more \"Hardcore\" players");
+
+        metronomeMoves.add(setMetronomeAmount);
+        setMetronomeAmount.setText("Set Metronome Amount");
+        setMetronomeAmount.setToolTipText("If amount >1, will replace random moves with metronome");
+
+        metronomeAmount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        metronomeAmount.setText("1");
+        metronomeAmount.setToolTipText("If this isn't an integer the randomizer will crash and you will deserve it");
+
+        jLabel4.setText("Amount:");
+
         javax.swing.GroupLayout prepatch_panelLayout = new javax.swing.GroupLayout(prepatch_panel);
         prepatch_panel.setLayout(prepatch_panelLayout);
         prepatch_panelLayout.setHorizontalGroup(
             prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator2)
-            .addGroup(prepatch_panelLayout.createSequentialGroup()
-                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(deleteInvisibleWall, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                    .addGroup(prepatch_panelLayout.createSequentialGroup()
-                        .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(movesCostColorless)
-                            .addComponent(movesCostNothing)
-                            .addComponent(movesCostSame))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator2)
             .addGroup(prepatch_panelLayout.createSequentialGroup()
                 .addComponent(sanquiTutorialPatch)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(prepatch_panelLayout.createSequentialGroup()
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(movesCostColorless)
+                    .addComponent(movesCostNothing)
+                    .addComponent(movesCostSame))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(prepatch_panelLayout.createSequentialGroup()
+                .addComponent(deleteInvisibleWall, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(87, 87, 87))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, prepatch_panelLayout.createSequentialGroup()
+                .addComponent(deleteMetronome)
+                .addGap(18, 18, 18)
+                .addComponent(setMetronomeAmount)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(metronomeAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         prepatch_panelLayout.setVerticalGroup(
             prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(prepatch_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(deleteInvisibleWall)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deleteMetronome)
+                    .addComponent(setMetronomeAmount)
+                    .addComponent(metronomeAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(movesCostSame)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(movesCostColorless)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(movesCostNothing)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sanquiTutorialPatch)
-                .addContainerGap())
+                .addComponent(sanquiTutorialPatch))
         );
 
         tabs.addTab("Prepatch", prepatch_panel);
@@ -143,9 +197,7 @@ public class PTCG1_UI extends RandomizerUI {
 
         randomizeSets.setText("Randomize booster packs");
         randomizeSets.setToolTipText("Randomize what set each pokemon comes from");
-
-        randomizeDecks.setText("Randomize decks");
-        randomizeDecks.setToolTipText("Randomizes preconstructed decks");
+        randomizeSets.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         randomizeMovesGroup.add(dontRandomizeMoves);
         dontRandomizeMoves.setText("Don't randomize moves");
@@ -159,33 +211,65 @@ public class PTCG1_UI extends RandomizerUI {
         randomizeMovesFully.setText("Randomize moves fully");
         randomizeMovesFully.setToolTipText("Ignore stages, any pokemon can get any moves");
 
+        allowGlitchHPs.setText("Allow Glitch HPs");
+        allowGlitchHPs.setToolTipText("This is a silly feature added on request");
+
+        movesCostSameAsType.setText("Make Moves Cost Same As Type");
+        movesCostSameAsType.setToolTipText("If Move costs aren't modified in the prepatch tab, this will set the type requirement to be the same as the type of pokemon this is on");
+
+        evosHaveMoreHP.setText("Evos have more HP");
+        evosHaveMoreHP.setToolTipText("Pokemon that evolve from other pokemon will have equal to or greater than the health of the prior evolution");
+
+        randomizeWeakness.setText("Randomize Weakness");
+
+        randomizeResistance.setText("Randomize Resistance");
+
+        randomizeRetreatCost.setText("Randomize Retreat Cost");
+
+        randomizePokemonTypes.setText("Randomize Pokemon Types");
+
         javax.swing.GroupLayout randomize_panelLayout = new javax.swing.GroupLayout(randomize_panel);
         randomize_panel.setLayout(randomize_panelLayout);
         randomize_panelLayout.setHorizontalGroup(
             randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(randomize_panelLayout.createSequentialGroup()
-                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, randomize_panelLayout.createSequentialGroup()
-                        .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(randomize_panelLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(randomizeHealth))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(randomizeDecks, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(randomizeSets, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jSeparator3)
             .addGroup(randomize_panelLayout.createSequentialGroup()
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dontRandomizeMoves)
+                    .addGroup(randomize_panelLayout.createSequentialGroup()
+                        .addComponent(dontRandomizeMoves)
+                        .addGap(54, 54, 54)
+                        .addComponent(movesCostSameAsType))
                     .addComponent(randomizeMovesInStages)
-                    .addComponent(randomizeMovesFully))
+                    .addComponent(randomizeMovesFully)
+                    .addGroup(randomize_panelLayout.createSequentialGroup()
+                        .addComponent(randomizeRetreatCost)
+                        .addGap(79, 79, 79)
+                        .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(randomizeResistance)
+                            .addComponent(randomizePokemonTypes))))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(randomize_panelLayout.createSequentialGroup()
+                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(randomize_panelLayout.createSequentialGroup()
+                        .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(randomizeHealth)
+                            .addGroup(randomize_panelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(allowGlitchHPs)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(evosHaveMoreHP))
+                            .addComponent(randomizeWeakness))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(randomizeSets, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         randomize_panelLayout.setVerticalGroup(
             randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,23 +281,184 @@ public class PTCG1_UI extends RandomizerUI {
                     .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(allowGlitchHPs)
+                    .addComponent(evosHaveMoreHP))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(randomizeWeakness)
+                    .addComponent(randomizeResistance))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(randomizeRetreatCost)
+                    .addComponent(randomizePokemonTypes))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(randomizeSets)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(randomizeDecks)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dontRandomizeMoves)
+                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dontRandomizeMoves)
+                    .addComponent(movesCostSameAsType))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(randomizeMovesInStages)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(randomizeMovesFully)
+                .addContainerGap())
+        );
+
+        tabs.addTab("Randomize Card Data", randomize_panel);
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Deck IDs"));
+
+        preserveStarterDecks.setText("Don't Randomize Starter Decks");
+        preserveStarterDecks.setToolTipText("Keeps starter decks constant so you always have your deck and a trunk");
+        preserveStarterDecks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preserveStarterDecksActionPerformed(evt);
+            }
+        });
+
+        randomizeDecks.setText("Randomize decks");
+        randomizeDecks.setToolTipText("Randomizes preconstructed decks");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(preserveStarterDecks))
+                    .addComponent(randomizeDecks))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addComponent(randomizeDecks)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(preserveStarterDecks)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabs.addTab("Randomize", randomize_panel);
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Deck Contents"));
+
+        jLabel5.setText("Coming soon. Suggest ideas for this section at #pokemon_only");
+
+        jLabel6.setText("Or email me at Aroymart@gmail.com");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(jLabel6)))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tabs.addTab("Randomize Deck Data", jPanel2);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Beta"));
+
+        randomizeWarps.setText("Randomize Warps");
+        randomizeWarps.setToolTipText("Randomizes entrance/exit warps. Not a good idea");
+
+        randomizeEvolutions.setText("Randomize Evolutions");
+        randomizeEvolutions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomizeEvolutionsActionPerformed(evt);
+            }
+        });
+
+        keepEvolutionsMonotype.setText("Monotype Evolution Chain");
+        keepEvolutionsMonotype.setToolTipText("Generated after types are modified.");
+
+        setMaxEvolutionChain.setText("Set Max Evolution Size:");
+        setMaxEvolutionChain.setToolTipText("If selected, sets evolution chanes between 1 and value in the textbox");
+
+        maxEvolutionChainValue.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        maxEvolutionChainValue.setText("3");
+        maxEvolutionChainValue.setToolTipText("if <1 or not a number, sets evolution size to infinite");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(keepEvolutionsMonotype)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(setMaxEvolutionChain)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(randomizeEvolutions)
+                            .addComponent(randomizeWarps))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(10, 10, 10))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(randomizeWarps)
+                .addGap(36, 36, 36)
+                .addComponent(randomizeEvolutions)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(keepEvolutionsMonotype)
+                    .addComponent(setMaxEvolutionChain)
+                    .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(83, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        tabs.addTab("Other / Beta", jPanel3);
 
         saveRom.setText("Save Rom");
         saveRom.addActionListener(new java.awt.event.ActionListener() {
@@ -221,21 +466,50 @@ public class PTCG1_UI extends RandomizerUI {
                 saveRomActionPerformed(evt);
             }
         });
-        jPanel1.add(saveRom);
+
+        jLabel3.setText("Seed:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textSeed))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(160, 160, 160)
+                .addComponent(saveRom)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(saveRom)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textSeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -250,6 +524,14 @@ public class PTCG1_UI extends RandomizerUI {
     private void healthHighStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_healthHighStateChanged
         ((SpinnerNumberModel)healthLow.getModel()).setMaximum((Comparable) ((SpinnerNumberModel)(healthHigh.getModel())).getNumber());
     }//GEN-LAST:event_healthHighStateChanged
+
+    private void preserveStarterDecksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preserveStarterDecksActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_preserveStarterDecksActionPerformed
+
+    private void randomizeEvolutionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeEvolutionsActionPerformed
+         // TODO add your handling code here:
+    }//GEN-LAST:event_randomizeEvolutionsActionPerformed
 
     public void saveRom(){
 
@@ -307,30 +589,57 @@ public class PTCG1_UI extends RandomizerUI {
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox allowGlitchHPs;
     private javax.swing.JCheckBox deleteInvisibleWall;
+    private javax.swing.JRadioButton deleteMetronome;
     private javax.swing.JRadioButton dontRandomizeMoves;
+    private javax.swing.JCheckBox evosHaveMoreHP;
     private javax.swing.JSpinner healthHigh;
     private javax.swing.JSpinner healthLow;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JCheckBox keepEvolutionsMonotype;
+    private javax.swing.JTextField maxEvolutionChainValue;
+    private javax.swing.JTextField metronomeAmount;
+    private javax.swing.ButtonGroup metronomeMoves;
     private javax.swing.ButtonGroup moveCost_buttons;
     private javax.swing.JRadioButton movesCostColorless;
     private javax.swing.JRadioButton movesCostNothing;
     private javax.swing.JRadioButton movesCostSame;
+    private javax.swing.JCheckBox movesCostSameAsType;
     private javax.swing.JPanel prepatch_panel;
+    private javax.swing.JCheckBox preserveStarterDecks;
     private javax.swing.JCheckBox randomizeDecks;
+    private javax.swing.JCheckBox randomizeEvolutions;
     private javax.swing.JCheckBox randomizeHealth;
     private javax.swing.JRadioButton randomizeMovesFully;
     private javax.swing.ButtonGroup randomizeMovesGroup;
     private javax.swing.JRadioButton randomizeMovesInStages;
+    private javax.swing.JCheckBox randomizePokemonTypes;
+    private javax.swing.JCheckBox randomizeResistance;
+    private javax.swing.JCheckBox randomizeRetreatCost;
     private javax.swing.JCheckBox randomizeSets;
+    private javax.swing.JCheckBox randomizeWarps;
+    private javax.swing.JCheckBox randomizeWeakness;
     private javax.swing.JPanel randomize_panel;
     private javax.swing.JCheckBox sanquiTutorialPatch;
     private javax.swing.JButton saveRom;
+    private javax.swing.JCheckBox setMaxEvolutionChain;
+    private javax.swing.JRadioButton setMetronomeAmount;
     private javax.swing.JTabbedPane tabs;
+    private javax.swing.JTextField textSeed;
     // End of variables declaration//GEN-END:variables
 }
