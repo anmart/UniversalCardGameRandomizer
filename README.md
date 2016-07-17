@@ -1,5 +1,6 @@
 # UniversalCardGameRandomizer
 
-idk open eclipse and download through there or something ¯\\\_(ツ)\_/¯
+ ¯\\\_(ツ)\_/¯
 
-Forms are generated through netbeans :P
+
+Clone this project then open in either eclipse or netbeans. Both will now work automatically. Does not require anything.
