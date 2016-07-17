@@ -24,22 +24,22 @@ public class PTCG1_Randomizer {
 
 	Random rand;
 	String randSeed;
-	
+
 	Move blankMove = new Move();
-	
+
 	public PTCG1_Randomizer(File game, String seed){
 
+
 		if(!seed.equals("")){
-			rand = new Random(seed.hashCode());
 			randSeed = seed;
 		}
 		else{
 			rand = new Random();
 			randSeed = "" + rand.nextInt(); 
-			rand = new Random(randSeed.hashCode());
 			// doing it fairly roundabout like this lets the user see what seed was used if none was set
 		}
-		
+		rand = new Random(randSeed.hashCode());
+
 		try {
 
 			rom = Files.readAllBytes(game.toPath());
@@ -53,9 +53,9 @@ public class PTCG1_Randomizer {
 	}
 
 
-	
+
 	public void saveRom(String fileLocation){
-		
+
 		writeMonsToRom();
 		try {
 			FileOutputStream fos = new FileOutputStream(fileLocation);
@@ -69,7 +69,7 @@ public class PTCG1_Randomizer {
 			e.printStackTrace();
 		}
 
-		
+
 	}
 
 	public void parseMons(){
@@ -82,11 +82,11 @@ public class PTCG1_Randomizer {
 		for(int i = 0; i < monAmount; i++){
 			mons[i] = new MonCardData(rom,monStartLocation + i*monSize);			
 		}
-		
+
 		//right now we've parsed a mon
-		
+
 	}
-	
+
 	public void writeMonsToRom(){
 
 		for(int i = 0; i < monAmount; i++){
@@ -95,6 +95,19 @@ public class PTCG1_Randomizer {
 
 	}
 
+	// for both of these, consider making them work by swapping existing values, or otherwise controlling the values better
+	public void randomizeRetreatCosts(){
+		int maxRetreat = 3;
+		for(int i = 0; i < mons.length; i++){
+			mons[i].retreatCost = (byte) (0xFF & rand.nextInt(maxRetreat+1));
+		}
+	}
+	public void randomizeTypes(){
+		int typeAmount = 7;
+		for(int i = 0; i < mons.length; i++){
+			mons[i].type = (byte) (0xFF & rand.nextInt(typeAmount));
+		}
+	}
 
 	public void deleteInvisibleWallMove(){
 		//NOTE: if this option is checked on the rom it has to have top priority. it forcefully assumes it knows where mr mime and his moves are
@@ -110,7 +123,7 @@ public class PTCG1_Randomizer {
 		// consider adding Overworld map indices to this too
 		int warpDataStartLoc = 0x1c0dd;
 		int roomAmount = 33;
-		
+
 		// not sure if this is bad practice but I didn't want a class that was everywhere and unrelated to all but this method
 		// if we ever come up with more warp shenanigans then move this to its own class file, but I can't envision it happening any time soon
 		class WarpRoom{		
@@ -131,11 +144,11 @@ public class PTCG1_Randomizer {
 					rom[startLoc++] = yNew;
 				}
 			}
-			
+
 			public ArrayList<WarpEntry> warps = new ArrayList<WarpEntry>();
-			
+
 			public int interpretWarps(byte[] rom, int startLoc){
-				
+
 				while(rom[startLoc] != 0 || rom[startLoc+1] != 0){
 					warps.add(new WarpEntry(rom, startLoc));
 					startLoc += 5;
@@ -143,26 +156,26 @@ public class PTCG1_Randomizer {
 				startLoc += 2;
 				return startLoc;
 			}
-			
+
 			public int writeWarps(byte[] rom, int startLoc){
 				for(int i = 0; i < warps.size(); i++){
 					warps.get(i).writeWarpEntry(rom, startLoc);
 					startLoc+=5;
 				}
-				
+
 				startLoc += 2; //since the terminators are already in the code we don't need to rewrite them
 				return startLoc;
 			}
-			
+
 		}
-		
+
 		WarpRoom[] rooms = new WarpRoom[roomAmount];
 		int startLoc = warpDataStartLoc;
 		for(int i = 0; i < roomAmount; i++){
 			rooms[i] = new WarpRoom();
 			startLoc = rooms[i].interpretWarps(rom, startLoc);
 		}
-		
+
 		//a little inefficient but w/e, this is why it's beta :^)
 		ArrayList<WarpRoom.WarpEntry> setList = new ArrayList<WarpRoom.WarpEntry>();
 		for(int i = 0; i < roomAmount; i++){
@@ -170,7 +183,7 @@ public class PTCG1_Randomizer {
 				setList.add(rooms[i].warps.get(j));
 			}
 		}
-		
+
 		// setting the values back
 		Collections.shuffle(setList, rand);
 		for(int i = 0; i < roomAmount; i++){
@@ -181,13 +194,13 @@ public class PTCG1_Randomizer {
 				setList.remove(0);
 			}
 		}
-		
+
 		// saving
 		startLoc = warpDataStartLoc;
 		for(int i = 0; i < roomAmount; i++){
 			startLoc = rooms[i].writeWarps(rom, startLoc);
 		}
-		
+
 	}
 
 	public void randomizeAllSets(){
@@ -224,7 +237,7 @@ public class PTCG1_Randomizer {
 			monList.add(mons[i]);			
 		}
 
-		
+
 		Collections.shuffle(moveList, rand);
 		Collections.shuffle(monList, rand);
 		for(int i = moveList.size()-1; i >= 0; i--){
@@ -232,17 +245,17 @@ public class PTCG1_Randomizer {
 				moveList.add(moveList.remove(i++));//move it to the back of the list
 			}
 		}	
-		
+
 		for(int i = 0; i< monList.size(); i++){
 			MonCardData curr = monList.get(i);
 			int stage = 0xFF & curr.stage;
-		//	System.out.println(stage);
+			//	System.out.println(stage);
 			boolean foundPokePower = false;
 			for(int j = moveList.size()-1; j >= 0; j--){
 				Move currMove = moveList.get(j);
-				
+
 				if(!keepStage || currMove.ownerStage == stage){
-					
+
 					if(foundPokePower){ 
 						if(currMove.isPokePower())
 							continue;
@@ -251,8 +264,8 @@ public class PTCG1_Randomizer {
 						break;
 					}
 
-					
-					
+
+
 					//we found one! yay!
 					curr.move1 = currMove;
 					moveList.remove(j);
@@ -262,7 +275,7 @@ public class PTCG1_Randomizer {
 						continue;
 					}else{
 						break;
-						
+
 					}
 
 
@@ -277,7 +290,7 @@ public class PTCG1_Randomizer {
 
 			}	
 		}
-		
+
 		//Alright so where are we now?
 		//we have a list of mons with only one move, and a list of moves that still don't have a home
 		for(int i = 0; i< monList.size(); i++){
@@ -298,10 +311,10 @@ public class PTCG1_Randomizer {
 
 		for(int i = 0; i < monList.size(); i++){
 			monList.get(i).move2 = blankMove;
-			
-			
+
+
 		}
-		
+
 
 		/*
 		 * alright new plan for moves
@@ -330,13 +343,13 @@ public class PTCG1_Randomizer {
 
 
 	}
-	
+
 	public void setAllEnergyToColorless(boolean costNothing){
-		
+
 		int mod = 16;
 		if(costNothing)
 			mod = 1;
-		
+
 		//This is another prepatch setting
 		ArrayList<Move> moveList = new ArrayList<Move>();
 
@@ -346,81 +359,111 @@ public class PTCG1_Randomizer {
 				moveList.add(mons[i].move2);		
 		}
 
-		
+
 		for(Move m : moveList){
 			int energyAmounts=0;
 			for(int i : m.getEnergyAmounts())
 				energyAmounts+=i;
-			
+
 			m.energy_fg = 0x00;//set everything but c_ to 00
 			m.energy_fp = 0x00;
 			m.energy_lw = 0x00;
 			m.energy_c_ = (byte) (mod*energyAmounts);//according to the internet it chops off the first 24 bits leaving the last byte. since energy amount is >=0 and <5 this will still be correct no matter what (
-			
-			
-			
+
+
+
 		}
-		
-		
-		
+
+
+
 	}
-	
-	public void randomizeDeckPointersInRom(){
+
+	public void randomizeDeckPointersInRom(boolean skipStarterDecks){
 		//We're just screwing around with pointers right now, not the decks themselves
 		//so we're not going to bother with a parser, we're just going to lost all pointers as words
 		//then rewrite them in a different order
 		//NOTE this modifies the rom data directly
-		
+
 		//Magic numbers
 		int deckPointerAmount = 55;
 		int deckPointerStartLocation = 0x30000;
-		
+		int[] skippedDeckIDs = new int[]{}; // for skipping starter decks. eventually might let users pick decks to skip
+
+		if(skipStarterDecks){
+			skippedDeckIDs = new int[]{ 5,7,9 }; // hardcoded values from the assembly. might need to include extra decks here as well
+		}
+
 		ArrayList<Word> deckPointers = new ArrayList<Word>();
-		
+
 		for(int i = 0; i < deckPointerAmount; i++){
+			boolean skipDeck = false;
+			for(int j : skippedDeckIDs){
+				if(i == j){
+					skipDeck = true;
+					break;
+				}
+			}
+			if(skipDeck)
+				continue;
+
 			deckPointers.add(new Word(rom,i*2 + deckPointerStartLocation, true));
 		}
-		
+
 		Collections.shuffle(deckPointers, rand);
-		
+
 		//now save over the deck pointers on rom
 		for(int i = 0; i < deckPointerAmount; i++){
+			boolean skipDeck = false;
+			for(int j : skippedDeckIDs){
+				if(i == j){
+					skipDeck = true;
+					break;
+				}
+			}
+			if(skipDeck)
+				continue;
+
+
 			deckPointers.get(0).writeToRom(rom, i*2 + deckPointerStartLocation);
 			deckPointers.remove(0);
 		}
-		
-		
-		
-		
+
+
+
+
 	}
-	
-	
-	public void randomizeHP(int low, int high){
+
+
+	public void randomizeHP(int low, int high, boolean allowGlitchHP){
 		for(int i = 0; i < mons.length; i++){
 			if(low == high)
 				mons[i].hp =(byte) (low);
-			else
-				mons[i].hp =(byte) ((int)(rand.nextInt((high-low)/10)*10 + low));
+			else{
+				if(allowGlitchHP)
+					mons[i].hp =(byte) ((int)(rand.nextInt(high-low) + low));
+				else
+					mons[i].hp =(byte) ((int)(rand.nextInt((high-low)/10)*10 + low));
+			}
 		}
 	}
-	
+
 	public void SanquiRemoveTutorialFromRom(){
 		//NOTE: this writes directly to rom
-		
+
 		//magic numbers
 		int sizeOfTutorial = 229;
 		int tutorialStartLoc = 0xD76F;
-		
+
 		//writes 228 bytes of 0x43 to ram...not sure why or how this works
 		for(int i = 0; i < sizeOfTutorial; i++){
 			rom[i + tutorialStartLoc] = 0x43;
 		}
-		
-		
-		
-		
+
+
+
+
 	}
-	
+
 
 
 }

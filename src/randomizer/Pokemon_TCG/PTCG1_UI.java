@@ -102,6 +102,7 @@ public class PTCG1_UI extends RandomizerUI {
         movesCostNothing.setText("Make moves cost nothing");
         movesCostNothing.setToolTipText("All energy costs will appear to be \"poison\"");
 
+        sanquiTutorialPatch.setSelected(true);
         sanquiTutorialPatch.setText("Remove tutorial");
         sanquiTutorialPatch.setToolTipText("Credit: Sanquii");
 
@@ -562,13 +563,19 @@ public class PTCG1_UI extends RandomizerUI {
 		}
 		
 		if(randomizeHealth.isSelected()){
-			rando.randomizeHP((Integer)((SpinnerNumberModel)healthLow.getModel()).getNumber(), (Integer) ((SpinnerNumberModel)healthHigh.getModel()).getNumber());
+			rando.randomizeHP((Integer)((SpinnerNumberModel)healthLow.getModel()).getNumber(), (Integer) ((SpinnerNumberModel)healthHigh.getModel()).getNumber(), allowGlitchHPs.isSelected());
 		}
 		if(randomizeDecks.isSelected()){
-			rando.randomizeDeckPointersInRom();
+			rando.randomizeDeckPointersInRom( preserveStarterDecks.isSelected() );
 		}
 		if(randomizeSets.isSelected()){
 			rando.randomizeAllSets();			
+		}
+		if(randomizeRetreatCost.isSelected()){
+			rando.randomizeRetreatCosts();
+		}
+		if(randomizePokemonTypes.isSelected()){
+			rando.randomizeTypes();
 		}
 
 		if(randomizeMovesInStages.isSelected()){

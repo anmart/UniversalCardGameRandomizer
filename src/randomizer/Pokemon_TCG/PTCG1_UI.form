@@ -156,6 +156,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="sanquiTutorialPatch">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Remove tutorial"/>
                 <Property name="toolTipText" type="java.lang.String" value="Credit: Sanquii"/>
               </Properties>
