@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -102,6 +103,25 @@ public class PTCG1_Randomizer {
 			mons[i].retreatCost = (byte) (0xFF & rand.nextInt(maxRetreat+1));
 		}
 	}
+
+	public void randomizeWeakness(){
+		for(int i = 0; i < mons.length; i++){
+			byte weakness = 0x01;
+			weakness <<= (rand.nextInt(6) + 2);
+			mons[i].weakness = (byte) (0xff & weakness);
+			weakness &= 0xff;
+		}
+	}
+
+	public void randomizeResistance(){
+		for(int i = 0; i < mons.length; i++){
+			byte resistance = 0x01;
+			resistance <<= (rand.nextInt(7) + 2);
+			mons[i].resistance = (byte) (0xff & resistance);
+			resistance &= 0xff;
+		}
+	}
+
 	public void randomizeTypes(){
 		int typeAmount = 7;
 		for(int i = 0; i < mons.length; i++){
@@ -114,9 +134,47 @@ public class PTCG1_Randomizer {
 		int mrMimeLoc = 147;
 		mons[mrMimeLoc].move1 = mons[mrMimeLoc].move2;
 
-		//bulbasaur doesn't have a second move, so we can overwrite mr.mime's second move with bulbasaurs blank second move
-		//the values are all probably blank but this is safest
 		mons[mrMimeLoc].move2 = blankMove;
+	}
+
+	public void setMetronomeAmount(int m){
+		int clefairyIndex = 0xab - 8;
+		int clefableIndex = 0xac - 8;
+
+		if(m==0){ // take out clefable's, clefairy's will be taken out right below
+			mons[clefableIndex].move1 = mons[clefableIndex].move2;
+			mons[clefableIndex].move2 = blankMove;
+		}
+		if(m < 2){ // we'll arbitrarily take out clefairy's
+			mons[clefairyIndex].move2 = blankMove;
+		}else{ // for any value >= 2
+			Move metronome = mons[clefairyIndex].move2;			
+			if (m>monAmount)
+				m = monAmount;
+			m-=2; // sets the maximum m to 2 minus mon amount to account for clef's
+
+			ArrayList<MonCardData> tempMons = new ArrayList<MonCardData>(Arrays.asList(mons));
+			//remove these so they don't accidentlaly get the move again
+			tempMons.remove(clefairyIndex);
+			tempMons.remove(clefableIndex);
+			Collections.shuffle(tempMons, rand);
+			while(m > 0){
+				if(rand.nextBoolean()){
+					tempMons.get(0).move1 = metronome;
+				}else{
+					tempMons.get(0).move2 = metronome;
+				}
+				System.out.println(tempMons.get(0).pokedexNumber);
+				m--;
+				tempMons.remove(0);
+			}
+
+
+
+
+
+		}
+
 	}
 
 	public void randomizeWarps(){
@@ -458,9 +516,64 @@ public class PTCG1_Randomizer {
 		for(int i = 0; i < sizeOfTutorial; i++){
 			rom[i + tutorialStartLoc] = 0x43;
 		}
+	}
+
+	public void setInstantText(){
+		int ldaLocation = 0x199c1;
+		rom[ldaLocation] = 0x00;
+	}
 
 
 
+	public void setMoveTypeToMonType() {
+		for( MonCardData mon : mons){
+
+			ArrayList<Move> moveList = new ArrayList<Move>();
+			moveList.add(mon.move1);
+			if(mon.move2.isExists())
+				moveList.add(mon.move2);		
+
+			for(Move m : moveList){
+				int eAmt = 0;
+				
+				int[] energies = m.getEnergyAmounts();
+				for(int i = 0; i < energies.length-1; i++){//skip colorless at the end
+					eAmt+=energies[i];
+				}
+				
+				
+				if((0xff & mon.type) == 0x6){//add more because colorless
+					eAmt += energies[energies.length-1];
+				}
+				
+				
+				if(mon.type%2 == 0) // if it's even then cost needs to be shifted left
+					eAmt = 0xFF & (eAmt << 4 );
+				
+				for(int i = 0; i < energies.length; i++){
+					if(i == (0xFF & mon.type))
+						energies[i] = eAmt;
+					else
+						energies[i] = 0x00;
+				}
+				
+				
+				m.energy_fg = (byte) (0xFF & (energies[0] + energies[1])); // cautionary 0xFF &'s because java is weird
+				m.energy_lw = (byte) (0xFF & (energies[2] + energies[3]));
+				m.energy_fp = (byte) (0xFF & (energies[4] + energies[5]));
+				if((0xFF & mon.type) == 0x06) // only change colorless if mon type is colorless
+					m.energy_c_ = (byte) (0xFF & energies[6]);
+				// I almost feel like it'd be better if just hardcoded.
+				
+				
+			}
+			
+			
+
+			
+			
+
+		}
 
 	}
 

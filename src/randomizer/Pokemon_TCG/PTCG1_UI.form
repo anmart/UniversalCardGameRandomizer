@@ -60,10 +60,6 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
                   <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="sanquiTutorialPatch" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="movesCostColorless" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -86,6 +82,13 @@
                       <Component id="metronomeAmount" min="-2" pref="34" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="sanquiTutorialPatch" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="startWithInstantText" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -100,7 +103,7 @@
                           <Component id="metronomeAmount" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="53" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="movesCostSame" min="-2" max="-2" attributes="0"/>
@@ -112,6 +115,9 @@
                       <Component id="jSeparator2" min="-2" pref="2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="sanquiTutorialPatch" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="startWithInstantText" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -157,7 +163,7 @@
             <Component class="javax.swing.JCheckBox" name="sanquiTutorialPatch">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Remove tutorial"/>
+                <Property name="text" type="java.lang.String" value="Remove Tutorial"/>
                 <Property name="toolTipText" type="java.lang.String" value="Credit: Sanquii"/>
               </Properties>
             </Component>
@@ -182,13 +188,20 @@
             <Component class="javax.swing.JTextField" name="metronomeAmount">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="11"/>
-                <Property name="text" type="java.lang.String" value="1"/>
+                <Property name="text" type="java.lang.String" value="2"/>
                 <Property name="toolTipText" type="java.lang.String" value="If this isn&apos;t an integer the randomizer will crash and you will deserve it"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Amount:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="startWithInstantText">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Start With Fast Text"/>
+                <Property name="toolTipText" type="java.lang.String" value="Vroom Vroom. Doesn&apos;t change animations becuase I couldn&apos;t figure out where that was set"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -208,19 +221,17 @@
                   <Component id="jSeparator3" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="dontRandomizeMoves" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                              <Component id="movesCostSameAsType" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Component id="randomizeMovesInStages" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="randomizeMovesFully" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="randomizeRetreatCost" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="randomizeResistance" min="-2" max="-2" attributes="0"/>
+                                  <Component id="randomizeRetreatCost" min="-2" max="-2" attributes="0"/>
+                                  <Component id="randomizeWeakness" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="randomizePokemonTypes" min="-2" max="-2" attributes="0"/>
+                                  <Component id="randomizeResistance" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -228,6 +239,7 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="randomizeHealth" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -245,13 +257,18 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="evosHaveMoreHP" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="randomizeWeakness" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="randomizeSets" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="randomizeSets" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="dontRandomizeMoves" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="movesCostSameAsType" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -269,7 +286,9 @@
                           <Component id="allowGlitchHPs" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="evosHaveMoreHP" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace pref="6" max="32767" attributes="0"/>
+                      <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="randomizeWeakness" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="randomizeResistance" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -279,7 +298,7 @@
                           <Component id="randomizeRetreatCost" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="randomizePokemonTypes" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="9" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="randomizeSets" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator3" min="-2" pref="2" max="-2" attributes="0"/>
@@ -384,8 +403,8 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="evosHaveMoreHP">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Evos have more HP"/>
-                <Property name="toolTipText" type="java.lang.String" value="Pokemon that evolve from other pokemon will have equal to or greater than the health of the prior evolution"/>
+                <Property name="text" type="java.lang.String" value="Fix Evolution Health "/>
+                <Property name="toolTipText" type="java.lang.String" value="Evolutions have &gt;= health of lower form"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="randomizeWeakness">
@@ -407,6 +426,8 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Randomize Pokemon Types"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JSeparator" name="jSeparator4">
             </Component>
           </SubComponents>
         </Container>
@@ -627,6 +648,7 @@
                 <Component class="javax.swing.JCheckBox" name="randomizeEvolutions">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Randomize Evolutions"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Allows for randomized evolutions. MIGHT BREAK HP FIX."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="randomizeEvolutionsActionPerformed"/>

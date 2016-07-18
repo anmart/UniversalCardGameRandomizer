@@ -15,7 +15,7 @@ public class Move {
 	byte flag1,flag2,flag3;
 	byte unknownByte1,unknownByte2;
 	
-	//variable that aren't related to data on disk
+	//variables that aren't related to data on disk
 	int ownerStage = -1;
 
 
