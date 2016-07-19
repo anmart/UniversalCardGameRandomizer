@@ -28,6 +28,9 @@ public class PTCG1_Randomizer {
 
 	Move blankMove = new Move();
 
+	boolean maxEvolutionsHaveBeenFound = false;
+	
+	
 	public PTCG1_Randomizer(File game, String seed){
 
 
@@ -316,6 +319,7 @@ public class PTCG1_Randomizer {
 			
 			
 			
+			
 			for(int j = moveList.size()-1; j >= 0; j--){
 				Move currMove = moveList.get(j);
 
@@ -452,7 +456,7 @@ public class PTCG1_Randomizer {
 		int[] skippedDeckIDs = new int[]{}; // for skipping starter decks. eventually might let users pick decks to skip
 
 		if(skipStarterDecks){
-			skippedDeckIDs = new int[]{ 5,7,9 }; // hardcoded values from the assembly. might need to include extra decks here as well
+			skippedDeckIDs = new int[]{ 5,6,7,8,9,10 }; // hardcoded values from the assembly. might need to include extra decks here as well
 		}
 
 		ArrayList<Word> deckPointers = new ArrayList<Word>();
@@ -507,11 +511,13 @@ public class PTCG1_Randomizer {
 					mons[i].hp =(byte) ((int)(rand.nextInt((high-low)/10)*10 + low));
 			}
 		}
+		
+		
+		
 	}
 
 	public void SanquiRemoveTutorialFromRom(){
-		//NOTE: this writes directly to rom
-
+		
 		//magic numbers
 		int sizeOfTutorial = 229;
 		int tutorialStartLoc = 0xD76F;
@@ -536,7 +542,13 @@ public class PTCG1_Randomizer {
 		}
 		return ret;
 	}
+	
+	
+	
 	public void randomizeEvolutions(int maxSize, boolean monoType){
+		
+		if(maxSize < 1)
+			maxSize = 999;
 		
 		ArrayList<MonCardData> randMons = new ArrayList<MonCardData>(Arrays.asList(mons));
 		Collections.shuffle(randMons, rand);
@@ -607,7 +619,7 @@ public class PTCG1_Randomizer {
 				currMon = newMon;
 			}
 			
-			tempInd = indicesOfPokemonFromNamePointer(currMon.name, randMons);
+			tempInd = indicesOfPokemonFromNamePointer(currMon.name, usedMons);
 			for(MonCardData mc : tempInd){
 				mc.highestStage = true;
 			}
@@ -615,7 +627,7 @@ public class PTCG1_Randomizer {
 			
 		}
 		
-		
+		maxEvolutionsHaveBeenFound = true;
 	}
 
 	public void setMoveTypeToMonType() {
@@ -668,6 +680,80 @@ public class PTCG1_Randomizer {
 
 		}
 
+	}
+
+	
+	public void findMaxEvolutionsForMons(){
+		for(MonCardData monCurrent : mons){
+			boolean foundHigher = false;
+
+			for(MonCardData monPossibleEvo : mons){
+				if(monPossibleEvo.preEvoName.equals(monCurrent.name)){
+					foundHigher = true;
+					break;
+				}
+				
+			}
+
+			if(!foundHigher)
+				monCurrent.highestStage = true;
+			
+		}
+		
+		
+		maxEvolutionsHaveBeenFound = true;
+	}
+	
+
+	public boolean fixHPForChains() {
+		
+		
+		if(!maxEvolutionsHaveBeenFound)
+			findMaxEvolutionsForMons();
+		
+		ArrayList<MonCardData> monsList = new ArrayList<MonCardData>(Arrays.asList(mons));
+		
+		while(monsList.size() > 0){
+			
+			ArrayList<MonCardData> evolutionChain = new ArrayList<MonCardData>();
+			ArrayList<MonCardData> chainStageMons;
+			ArrayList<Byte> HPs = new ArrayList<Byte>();
+			
+			MonCardData currMon = null;
+			
+			for(int i = 0; i < monsList.size(); i++){
+				if(monsList.get(i).highestStage){
+					currMon = monsList.get(i);
+				}
+			}
+			
+			if(currMon == null){
+				return false;
+			}
+			
+			
+			chainStageMons = indicesOfPokemonFromNamePointer(currMon.name, monsList);
+			while(chainStageMons.size() > 0){
+				currMon = chainStageMons.get(0); //we know it's >0, we need another mon for the next stage
+				for(MonCardData mc : chainStageMons){
+					evolutionChain.add(mc);
+					HPs.add(mc.hp);
+					monsList.remove(mc);
+					
+				}
+
+				chainStageMons = indicesOfPokemonFromNamePointer(currMon.preEvoName, monsList);
+			}
+			
+			Collections.sort(HPs);
+			for(int i = 0; i < evolutionChain.size(); i++){
+				evolutionChain.get(i).hp = HPs.get(evolutionChain.size() - i - 1);
+			}
+			
+		}
+		
+		
+		return true;
 	}
 
 

@@ -84,6 +84,7 @@ public class PTCG1_UI extends RandomizerUI {
         keepEvolutionsMonotype = new javax.swing.JCheckBox();
         setMaxEvolutionChain = new javax.swing.JCheckBox();
         maxEvolutionChainValue = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         saveRom = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -229,7 +230,7 @@ public class PTCG1_UI extends RandomizerUI {
         movesCostSameAsType.setText("Make Moves Cost Same As Type");
         movesCostSameAsType.setToolTipText("If Move costs aren't modified in the prepatch tab, this will set the type requirement to be the same as the type of pokemon this is on");
 
-        evosHaveMoreHP.setText("Fix Evolution Health ");
+        evosHaveMoreHP.setText("Fix Evolution HP Distribution Bug");
         evosHaveMoreHP.setToolTipText("Evolutions have >= health of lower form");
 
         randomizeWeakness.setText("Randomize Weakness");
@@ -257,13 +258,12 @@ public class PTCG1_UI extends RandomizerUI {
                         .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(randomizePokemonTypes)
                             .addComponent(randomizeResistance))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 39, Short.MAX_VALUE))
             .addGroup(randomize_panelLayout.createSequentialGroup()
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator4)
                     .addGroup(randomize_panelLayout.createSequentialGroup()
                         .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(randomizeHealth)
                             .addGroup(randomize_panelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel1)
@@ -274,9 +274,7 @@ public class PTCG1_UI extends RandomizerUI {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(allowGlitchHPs)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(evosHaveMoreHP))
+                                .addComponent(allowGlitchHPs))
                             .addComponent(randomizeSets))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -285,20 +283,26 @@ public class PTCG1_UI extends RandomizerUI {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(movesCostSameAsType)
                 .addGap(22, 22, 22))
+            .addGroup(randomize_panelLayout.createSequentialGroup()
+                .addComponent(randomizeHealth)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(evosHaveMoreHP)
+                .addGap(29, 29, 29))
         );
         randomize_panelLayout.setVerticalGroup(
             randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(randomize_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(randomizeHealth)
+                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(randomizeHealth)
+                    .addComponent(evosHaveMoreHP))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(allowGlitchHPs)
-                    .addComponent(evosHaveMoreHP))
+                    .addComponent(allowGlitchHPs))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
@@ -413,7 +417,7 @@ public class PTCG1_UI extends RandomizerUI {
         randomizeWarps.setToolTipText("Randomizes entrance/exit warps. Not a good idea");
 
         randomizeEvolutions.setText("Randomize Evolutions");
-        randomizeEvolutions.setToolTipText("Allows for randomized evolutions. MIGHT BREAK HP FIX.");
+        randomizeEvolutions.setToolTipText("Allows for randomized evolutions. BREAKS MOVE RADNOMIZATION WITHIN STAGE");
         randomizeEvolutions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 randomizeEvolutionsActionPerformed(evt);
@@ -430,6 +434,9 @@ public class PTCG1_UI extends RandomizerUI {
         maxEvolutionChainValue.setText("3");
         maxEvolutionChainValue.setToolTipText("if <1 or not a number, sets evolution size to infinite");
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setText("THESE MAY BREAK SOMETHING.");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -445,10 +452,14 @@ public class PTCG1_UI extends RandomizerUI {
                         .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(randomizeEvolutions)
-                            .addComponent(randomizeWarps))
+                            .addComponent(randomizeWarps)
+                            .addComponent(randomizeEvolutions))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(10, 10, 10))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -462,7 +473,9 @@ public class PTCG1_UI extends RandomizerUI {
                     .addComponent(keepEvolutionsMonotype)
                     .addComponent(setMaxEvolutionChain)
                     .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -627,6 +640,14 @@ public class PTCG1_UI extends RandomizerUI {
 		}
 		
 		
+		if(evosHaveMoreHP.isSelected()){
+			
+			if(!rando.fixHPForChains()){
+				JOptionPane.showMessageDialog(null, "Error while Fixing HP chains. Please send seed to Aroymart.");
+			}
+			
+		}
+		
 		//goes after evolution randomization
 		if(randomizeMovesInStages.isSelected()){
 			rando.randomizeMoves(true, false);
@@ -671,6 +692,7 @@ public class PTCG1_UI extends RandomizerUI {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
