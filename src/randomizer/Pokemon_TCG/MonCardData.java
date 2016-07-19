@@ -34,6 +34,9 @@ public class MonCardData {
 
 	public static int moveSize = 19;
 	
+	//non data variables
+	boolean highestStage = false;
+	
 	public MonCardData(byte[] rom, int startIndex){
 		int c = startIndex;
 				
@@ -63,9 +66,7 @@ public class MonCardData {
 		weight = new Word(rom,c,true); c+=2;
 		description = new Word(rom,c,true); c+=2;
 		unknownByte2 = rom[c++];
-			
 	
-		
 	}
 	
 	public void writeToRom(byte[] rom, int startIndex){

@@ -53,4 +53,13 @@ public class Word {
 	public String toString(){
 		return "" + (0xFFFF & ((0xFF00 & high << 8) + (low & 0xFF)));
 	}
+	public boolean equals(Object other){
+		if (other instanceof Word){
+			Word o = (Word) other;
+			return o.high == high && o.low == low;
+			
+		}
+		return false;
+		
+	}
 }

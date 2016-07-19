@@ -288,6 +288,8 @@ public class PTCG1_Randomizer {
 		ArrayList<Move> moveList = new ArrayList<Move>();
 		ArrayList<MonCardData> monList = new ArrayList<MonCardData>();
 
+		
+		
 		for(int i = 0; i < monAmount; i++){
 			moveList.add(mons[i].move1);
 			if(mons[i].move2.isExists())
@@ -295,20 +297,25 @@ public class PTCG1_Randomizer {
 			monList.add(mons[i]);			
 		}
 
-
 		Collections.shuffle(moveList, rand);
 		Collections.shuffle(monList, rand);
+		
 		for(int i = moveList.size()-1; i >= 0; i--){
+			
 			if(moveList.get(i).isPokePower()){
-				moveList.add(moveList.remove(i++));//move it to the back of the list
+				moveList.add(moveList.remove(i));//move it to the back of the list
 			}
 		}	
 
+		
 		for(int i = 0; i< monList.size(); i++){
 			MonCardData curr = monList.get(i);
 			int stage = 0xFF & curr.stage;
 			//	System.out.println(stage);
 			boolean foundPokePower = false;
+			
+			
+			
 			for(int j = moveList.size()-1; j >= 0; j--){
 				Move currMove = moveList.get(j);
 
@@ -341,14 +348,12 @@ public class PTCG1_Randomizer {
 
 
 			}
-
 			if(foundPokePower){
 				//if after all that we got two moves (move + pokepower), remove self from list
 				monList.remove(i--);
 
 			}	
 		}
-
 		//Alright so where are we now?
 		//we have a list of mons with only one move, and a list of moves that still don't have a home
 		for(int i = 0; i< monList.size(); i++){
@@ -366,7 +371,6 @@ public class PTCG1_Randomizer {
 
 
 		}
-
 		for(int i = 0; i < monList.size(); i++){
 			monList.get(i).move2 = blankMove;
 
@@ -523,7 +527,96 @@ public class PTCG1_Randomizer {
 		rom[ldaLocation] = 0x00;
 	}
 
+	public ArrayList<MonCardData> indicesOfPokemonFromNamePointer(Word namePointer, ArrayList<MonCardData> mons){
+		ArrayList<MonCardData> ret = new ArrayList<MonCardData>();
+		for(int i = 0; i < mons.size(); i++){
+			
+			if(mons.get(i).name.equals(namePointer))
+				ret.add(mons.get(i));
+		}
+		return ret;
+	}
+	public void randomizeEvolutions(int maxSize, boolean monoType){
+		
+		ArrayList<MonCardData> randMons = new ArrayList<MonCardData>(Arrays.asList(mons));
+		Collections.shuffle(randMons, rand);
+		ArrayList<MonCardData> tempInd; // used a few times for a short amount of time
+		ArrayList<MonCardData> usedMons = new ArrayList<MonCardData>();
+		
+		while(randMons.size() > 0){
+			
+			MonCardData currMon = randMons.get(0);
 
+			tempInd = indicesOfPokemonFromNamePointer(currMon.name, randMons);
+			for(MonCardData mc : tempInd){
+				mc.stage = 0x0; // basic
+				mc.preEvoName = new Word(); // no pre evo (default constructor returns 0000 word)
+				usedMons.add(mc);
+				randMons.remove(mc);				
+			}
+			
+			
+			
+			int maxBound = maxSize;
+			if(randMons.size() < maxBound)
+				maxBound = randMons.size();
+			
+			
+			//this lets us skip randomization and the for loop if we have no pokems left
+			//we go straight to setting this mon to highest evo
+			int rnum;
+			if(maxBound < 1)
+				rnum = 0;
+			else
+				rnum = rand.nextInt(maxBound);
+			
+			
+			for(int i = rnum; i > 0; i--){
+				
+				boolean monFound = false;
+				int newMonNum;
+				
+				for(newMonNum = 0; newMonNum <  randMons.size(); newMonNum++){
+					if(!monoType || randMons.get(newMonNum).type == currMon.type){
+						monFound = true;
+						break;						
+					}
+				}
+				
+				if(!monFound)
+					break;
+				
+				MonCardData newMon = randMons.get(newMonNum);
+				
+				if(currMon.stage > 0)
+					newMon.stage = 0x02;
+				else
+					newMon.stage = 0x01;
+				
+				
+				
+				tempInd = indicesOfPokemonFromNamePointer(newMon.name, randMons);
+				for(MonCardData mc : tempInd){
+					mc.stage = newMon.stage;
+					mc.preEvoName = currMon.name;
+					usedMons.add(mc);
+					randMons.remove(mc);
+				}
+				
+				
+				currMon = newMon;
+			}
+			
+			tempInd = indicesOfPokemonFromNamePointer(currMon.name, randMons);
+			for(MonCardData mc : tempInd){
+				mc.highestStage = true;
+			}
+			
+			
+		}
+		
+		
+	}
 
 	public void setMoveTypeToMonType() {
 		for( MonCardData mon : mons){

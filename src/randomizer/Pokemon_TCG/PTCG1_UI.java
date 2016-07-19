@@ -424,7 +424,7 @@ public class PTCG1_UI extends RandomizerUI {
         keepEvolutionsMonotype.setToolTipText("Generated after types are modified.");
 
         setMaxEvolutionChain.setText("Set Max Evolution Size:");
-        setMaxEvolutionChain.setToolTipText("If selected, sets evolution chanes between 1 and value in the textbox");
+        setMaxEvolutionChain.setToolTipText("If selected, sets evolution chains between 1 and value in the textbox");
 
         maxEvolutionChainValue.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         maxEvolutionChainValue.setText("3");
@@ -615,6 +615,19 @@ public class PTCG1_UI extends RandomizerUI {
 			rando.randomizeTypes();
 		}
 
+		
+		
+		// Has to go after type randomization, before HP Fix though
+		if(randomizeEvolutions.isSelected()){
+			String maxSize = maxEvolutionChainValue.getText();
+			if(!maxSize.matches("[0-9]+"))
+				maxSize = "999";
+			
+			rando.randomizeEvolutions(Integer.parseInt(maxSize), keepEvolutionsMonotype.isSelected());
+		}
+		
+		
+		//goes after evolution randomization
 		if(randomizeMovesInStages.isSelected()){
 			rando.randomizeMoves(true, false);
 		}
@@ -623,11 +636,12 @@ public class PTCG1_UI extends RandomizerUI {
 		}
 		
 		
+		
 		// THIS MUST GO AFTER TYPE AND MOVE RANDOMIZATION
 		if(movesCostSameAsType.isSelected()){
 			rando.setMoveTypeToMonType();
-		}
-
+		}		
+		
 
 		fc.setSelectedFile(new File("TCG Randomized.gbc"));
 		fc.showOpenDialog(PTCG1_UI.this);

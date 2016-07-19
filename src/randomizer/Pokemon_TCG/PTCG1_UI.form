@@ -663,7 +663,7 @@
                 <Component class="javax.swing.JCheckBox" name="setMaxEvolutionChain">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Set Max Evolution Size:"/>
-                    <Property name="toolTipText" type="java.lang.String" value="If selected, sets evolution chanes between 1 and value in the textbox"/>
+                    <Property name="toolTipText" type="java.lang.String" value="If selected, sets evolution chains between 1 and value in the textbox"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="maxEvolutionChainValue">
