@@ -167,7 +167,7 @@ public class PTCG1_Randomizer {
 				}else{
 					tempMons.get(0).move2 = metronome;
 				}
-				System.out.println(tempMons.get(0).pokedexNumber);
+				//System.out.println(tempMons.get(0).pokedexNumber);
 				m--;
 				tempMons.remove(0);
 			}
@@ -532,6 +532,15 @@ public class PTCG1_Randomizer {
 		int ldaLocation = 0x199c1;
 		rom[ldaLocation] = 0x00;
 	}
+	public void setAnimationsOff(){
+		char[] mod = { 0x3E, 0x01, 0xEA, 0x07, 0xA0, 0xEA, 0x09, 0xA0, 0xAF, 0xAF}; // compiled a mod and copied the relevant bytes
+		int startLoc = 0x199c8;
+		
+		for(int i = 0; i < mod.length; i++){
+			rom[startLoc + i] = (byte) (0xFF & mod[i]);
+		}
+		
+	}
 
 	public ArrayList<MonCardData> indicesOfPokemonFromNamePointer(Word namePointer, ArrayList<MonCardData> mons){
 		ArrayList<MonCardData> ret = new ArrayList<MonCardData>();
@@ -754,6 +763,14 @@ public class PTCG1_Randomizer {
 		
 		
 		return true;
+	}
+
+
+
+	public void removeRetreatCost() {
+		for(MonCardData mc : mons)
+			mc.retreatCost = 0x00;
+		
 	}
 
 

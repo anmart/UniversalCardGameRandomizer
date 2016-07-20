@@ -64,9 +64,13 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="movesCostColorless" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="movesCostNothing" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="movesCostSame" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="movesCostSame" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                              <Component id="removeRetreatCost" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="61" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="deleteInvisibleWall" max="32767" attributes="0"/>
@@ -86,6 +90,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="sanquiTutorialPatch" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="startWithInstantText" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="startWithNoAnimations" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -106,7 +111,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="movesCostSame" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="movesCostSame" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="removeRetreatCost" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="movesCostColorless" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -117,7 +125,9 @@
                       <Component id="sanquiTutorialPatch" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="startWithInstantText" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="26" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="startWithNoAnimations" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -202,6 +212,19 @@
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Start With Fast Text"/>
                 <Property name="toolTipText" type="java.lang.String" value="Vroom Vroom. Doesn&apos;t change animations becuase I couldn&apos;t figure out where that was set"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="startWithNoAnimations">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Start With No Animations"/>
+                <Property name="toolTipText" type="java.lang.String" value="Starts a new game with animations set to off"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="removeRetreatCost">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Remove Retreat Cost"/>
+                <Property name="toolTipText" type="java.lang.String" value="Sets retreat cost for every mon to zero. Out prioritizes randomized retreat cost."/>
               </Properties>
             </Component>
           </SubComponents>

@@ -51,6 +51,8 @@ public class PTCG1_UI extends RandomizerUI {
         metronomeAmount = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         startWithInstantText = new javax.swing.JCheckBox();
+        startWithNoAnimations = new javax.swing.JCheckBox();
+        removeRetreatCost = new javax.swing.JCheckBox();
         randomize_panel = new javax.swing.JPanel();
         randomizeHealth = new javax.swing.JCheckBox();
         healthLow = new javax.swing.JSpinner();
@@ -127,6 +129,13 @@ public class PTCG1_UI extends RandomizerUI {
         startWithInstantText.setText("Start With Fast Text");
         startWithInstantText.setToolTipText("Vroom Vroom. Doesn't change animations becuase I couldn't figure out where that was set");
 
+        startWithNoAnimations.setSelected(true);
+        startWithNoAnimations.setText("Start With No Animations");
+        startWithNoAnimations.setToolTipText("Starts a new game with animations set to off");
+
+        removeRetreatCost.setText("Remove Retreat Cost");
+        removeRetreatCost.setToolTipText("Sets retreat cost for every mon to zero. Out prioritizes randomized retreat cost.");
+
         javax.swing.GroupLayout prepatch_panelLayout = new javax.swing.GroupLayout(prepatch_panel);
         prepatch_panel.setLayout(prepatch_panelLayout);
         prepatch_panelLayout.setHorizontalGroup(
@@ -137,8 +146,11 @@ public class PTCG1_UI extends RandomizerUI {
                 .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(movesCostColorless)
                     .addComponent(movesCostNothing)
-                    .addComponent(movesCostSame))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(prepatch_panelLayout.createSequentialGroup()
+                        .addComponent(movesCostSame)
+                        .addGap(59, 59, 59)
+                        .addComponent(removeRetreatCost)))
+                .addContainerGap(61, Short.MAX_VALUE))
             .addGroup(prepatch_panelLayout.createSequentialGroup()
                 .addComponent(deleteInvisibleWall, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(87, 87, 87))
@@ -154,7 +166,8 @@ public class PTCG1_UI extends RandomizerUI {
             .addGroup(prepatch_panelLayout.createSequentialGroup()
                 .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sanquiTutorialPatch)
-                    .addComponent(startWithInstantText))
+                    .addComponent(startWithInstantText)
+                    .addComponent(startWithNoAnimations))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         prepatch_panelLayout.setVerticalGroup(
@@ -171,7 +184,9 @@ public class PTCG1_UI extends RandomizerUI {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(movesCostSame)
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(movesCostSame)
+                    .addComponent(removeRetreatCost))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(movesCostColorless)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -182,7 +197,9 @@ public class PTCG1_UI extends RandomizerUI {
                 .addComponent(sanquiTutorialPatch)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startWithInstantText)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(startWithNoAnimations)
+                .addContainerGap())
         );
 
         tabs.addTab("Prepatch", prepatch_panel);
@@ -590,6 +607,8 @@ public class PTCG1_UI extends RandomizerUI {
 		}
 		if(startWithInstantText.isSelected()){
 			rando.setInstantText();			
+		}if(startWithNoAnimations.isSelected()){
+			rando.setAnimationsOff();			
 		}
 
 
@@ -663,6 +682,12 @@ public class PTCG1_UI extends RandomizerUI {
 			rando.setMoveTypeToMonType();
 		}		
 		
+		
+		
+		//This doesn't need to be before anything atm, but it has to go after randomized retreat costs
+		if(removeRetreatCost.isSelected()){
+			rando.removeRetreatCost();
+		}
 
 		fc.setSelectedFile(new File("TCG Randomized.gbc"));
 		fc.showOpenDialog(PTCG1_UI.this);
@@ -727,11 +752,13 @@ public class PTCG1_UI extends RandomizerUI {
     private javax.swing.JCheckBox randomizeWarps;
     private javax.swing.JCheckBox randomizeWeakness;
     private javax.swing.JPanel randomize_panel;
+    private javax.swing.JCheckBox removeRetreatCost;
     private javax.swing.JCheckBox sanquiTutorialPatch;
     private javax.swing.JButton saveRom;
     private javax.swing.JCheckBox setMaxEvolutionChain;
     private javax.swing.JRadioButton setMetronomeAmount;
     private javax.swing.JCheckBox startWithInstantText;
+    private javax.swing.JCheckBox startWithNoAnimations;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTextField textSeed;
     // End of variables declaration//GEN-END:variables
