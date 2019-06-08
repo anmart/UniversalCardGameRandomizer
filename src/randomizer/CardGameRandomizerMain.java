@@ -60,6 +60,7 @@ public class CardGameRandomizerMain extends JFrame {
 		fc = new JFileChooser();
 		fc.setDialogTitle("Choose Rom");
 		fc.setApproveButtonText("Choose");
+                fc.setCurrentDirectory(new File(System.getProperty("user.home")));
 		fc.addChoosableFileFilter(new FileFilter() {
 
 			   public String getDescription() {

@@ -347,7 +347,7 @@ public class PTCG1_UI extends RandomizerUI {
 
         tabs.addTab("Randomize Card Data", randomize_panel);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Deck IDs"));
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         preserveStarterDecks.setText("Don't Randomize Starter Decks");
         preserveStarterDecks.setToolTipText("Keeps starter decks constant so you always have your deck and a trunk");
@@ -379,10 +379,10 @@ public class PTCG1_UI extends RandomizerUI {
                 .addComponent(randomizeDecks)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(preserveStarterDecks)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Deck Contents"));
+        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel5.setText("Coming soon. Suggest ideas for this section at #pokemon_only");
 
@@ -399,7 +399,7 @@ public class PTCG1_UI extends RandomizerUI {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(jLabel6)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -408,7 +408,7 @@ public class PTCG1_UI extends RandomizerUI {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -421,14 +421,14 @@ public class PTCG1_UI extends RandomizerUI {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabs.addTab("Randomize Deck Data", jPanel2);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Beta"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         randomizeWarps.setText("Randomize Warps");
         randomizeWarps.setToolTipText("Randomizes entrance/exit warps. Not a good idea");
@@ -466,7 +466,7 @@ public class PTCG1_UI extends RandomizerUI {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(setMaxEvolutionChain)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
+                        .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(randomizeWarps)
@@ -490,7 +490,7 @@ public class PTCG1_UI extends RandomizerUI {
                     .addComponent(keepEvolutionsMonotype)
                     .addComponent(setMaxEvolutionChain)
                     .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(26, 26, 26))
         );
