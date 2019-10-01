@@ -703,6 +703,19 @@ public class PTCG1_UI extends RandomizerUI {
 
 	}
 
+public void saveCurrentGUIState(String fileLocation){
+    
+}
+private String formatForSave(String name, Object uiObj){
+    String ret = "\"name\":";
+    
+    if (uiObj instanceof javax.swing.JCheckBox){
+	ret += ((javax.swing.JCheckBox)uiObj).isSelected();
+    }
+    
+    return ret + "\n";
+}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox allowGlitchHPs;
     private javax.swing.JCheckBox deleteInvisibleWall;
