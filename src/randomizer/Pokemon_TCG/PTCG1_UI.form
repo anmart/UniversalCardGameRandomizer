@@ -194,6 +194,9 @@
                 <Property name="text" type="java.lang.String" value="Set Metronome Amount"/>
                 <Property name="toolTipText" type="java.lang.String" value="If amount &gt;1, will replace random moves with metronome"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setMetronomeAmountActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="metronomeAmount">
               <Properties>
@@ -220,6 +223,9 @@
                 <Property name="text" type="java.lang.String" value="Start With No Animations"/>
                 <Property name="toolTipText" type="java.lang.String" value="Starts a new game with animations set to off"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startWithNoAnimationsActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="removeRetreatCost">
               <Properties>
@@ -727,25 +733,31 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="textSeed" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
-                  <Component id="saveRom" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="savePreset" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="saveRom" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="textSeed" max="32767" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="saveRom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="savePreset" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="saveRom" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="textSeed" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -770,6 +782,14 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="textSeed">
+        </Component>
+        <Component class="javax.swing.JButton" name="savePreset">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Save Preset"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="savePresetActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

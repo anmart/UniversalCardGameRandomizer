@@ -6,6 +6,7 @@
 package randomizer.Pokemon_TCG;
 
 import java.io.File;
+import javax.swing.JFileChooser;
 
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
@@ -91,6 +92,7 @@ public class PTCG1_UI extends RandomizerUI {
         saveRom = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         textSeed = new javax.swing.JTextField();
+        savePreset = new javax.swing.JButton();
 
         deleteInvisibleWall.setText("Delete Mr. Mime's Invisible Wall ability");
         deleteInvisibleWall.setToolTipText("Note: only Mr. Mime can use this ability anywa");
@@ -118,6 +120,11 @@ public class PTCG1_UI extends RandomizerUI {
         metronomeMoves.add(setMetronomeAmount);
         setMetronomeAmount.setText("Set Metronome Amount");
         setMetronomeAmount.setToolTipText("If amount >1, will replace random moves with metronome");
+        setMetronomeAmount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setMetronomeAmountActionPerformed(evt);
+            }
+        });
 
         metronomeAmount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         metronomeAmount.setText("2");
@@ -132,6 +139,11 @@ public class PTCG1_UI extends RandomizerUI {
         startWithNoAnimations.setSelected(true);
         startWithNoAnimations.setText("Start With No Animations");
         startWithNoAnimations.setToolTipText("Starts a new game with animations set to off");
+        startWithNoAnimations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startWithNoAnimationsActionPerformed(evt);
+            }
+        });
 
         removeRetreatCost.setText("Remove Retreat Cost");
         removeRetreatCost.setToolTipText("Sets retreat cost for every mon to zero. Out prioritizes randomized retreat cost.");
@@ -517,26 +529,37 @@ public class PTCG1_UI extends RandomizerUI {
 
         jLabel3.setText("Seed:");
 
+        savePreset.setText("Save Preset");
+        savePreset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savePresetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textSeed))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(160, 160, 160)
-                .addComponent(saveRom)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(savePreset)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveRom)
+                        .addContainerGap())
+                    .addComponent(textSeed)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveRom)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saveRom)
+                    .addComponent(savePreset))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textSeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
@@ -580,6 +603,22 @@ public class PTCG1_UI extends RandomizerUI {
 	private void randomizeEvolutionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeEvolutionsActionPerformed
 		// TODO add your handling code here:
 	}//GEN-LAST:event_randomizeEvolutionsActionPerformed
+
+    private void setMetronomeAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setMetronomeAmountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_setMetronomeAmountActionPerformed
+
+    private void startWithNoAnimationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startWithNoAnimationsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startWithNoAnimationsActionPerformed
+
+    private void savePresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePresetActionPerformed
+        // TODO add your handling code here:
+	JFileChooser guiStateSaveChooser = new JFileChooser();
+	guiStateSaveChooser.setSelectedFile(new File("rando_preset.pst"));
+	guiStateSaveChooser.showDialog(PTCG1_UI.this, "Save");
+	saveCurrentGUIState(guiStateSaveChooser.getSelectedFile());
+    }//GEN-LAST:event_savePresetActionPerformed
 
 	public void saveRom(){
 
@@ -690,7 +729,7 @@ public class PTCG1_UI extends RandomizerUI {
 		}
 
 		fc.setSelectedFile(new File("TCG Randomized.gbc"));
-		fc.showOpenDialog(PTCG1_UI.this);
+		fc.showDialog(PTCG1_UI.this,"Save");
 
 		String romLoc = fc.getSelectedFile().getAbsolutePath();
 		if(romLoc.endsWith(".gbc"))
@@ -702,15 +741,60 @@ public class PTCG1_UI extends RandomizerUI {
 		JOptionPane.showMessageDialog(null, "Finished Saving Rom.");
 
 	}
+	
 
-public void saveCurrentGUIState(String fileLocation){
-    
+public void saveCurrentGUIState(File file){
+    String finalSave = "v1.0\n";
+    finalSave += formatForSave("mrmime", deleteInvisibleWall);
+    finalSave += formatForSave("deleteMetronome", deleteMetronome);
+    finalSave += formatForSave("setMetronomeAmount", setMetronomeAmount);
+    finalSave += formatForSave("metronomeAmount", metronomeAmount);
+    finalSave += formatForSave("movesCostSame", movesCostSame);
+    finalSave += formatForSave("movesCostColorless", movesCostColorless);
+    finalSave += formatForSave("movesCostNothing", movesCostNothing);
+    finalSave += formatForSave("removeRetreatCost", removeRetreatCost);
+    finalSave += formatForSave("sanquiTutorialPatch", sanquiTutorialPatch);
+    finalSave += formatForSave("startWithInstantText", startWithInstantText);
+    finalSave += formatForSave("startWithNoAnimations", startWithNoAnimations);
+    finalSave += formatForSave("healthLow", healthLow);
+    finalSave += formatForSave("healthHigh", healthHigh);
+    finalSave += formatForSave("evosHaveMoreHP", evosHaveMoreHP);
+    finalSave += formatForSave("allowGlitchHPs", allowGlitchHPs);
+    finalSave += formatForSave("randomizeWeakness", randomizeWeakness);
+    finalSave += formatForSave("randomizeRetreatCost", randomizeRetreatCost);
+    finalSave += formatForSave("randomizeSets", randomizeSets);
+    finalSave += formatForSave("randomizeResistance", randomizeResistance);
+    finalSave += formatForSave("randomizePokemonTypes", randomizePokemonTypes);
+    finalSave += formatForSave("dontRandomizeMoves", dontRandomizeMoves);
+    finalSave += formatForSave("randomizeMovesInStages", randomizeMovesInStages);
+    finalSave += formatForSave("randomizeMovesFully", randomizeMovesFully);
+    finalSave += formatForSave("movesCostSameAsType", movesCostSameAsType);
+    finalSave += formatForSave("randomizeDecks", randomizeDecks);
+    finalSave += formatForSave("preserveStarterDecks", preserveStarterDecks);
+    finalSave += formatForSave("randomizeWarps", randomizeWarps);
+    finalSave += formatForSave("randomizeEvolutions", randomizeEvolutions);
+    finalSave += formatForSave("keepEvolutionsMonotype", keepEvolutionsMonotype);
+    finalSave += formatForSave("setMaxEvolutionChain", setMaxEvolutionChain);
+    finalSave += formatForSave("maxEvolutionChainValue", maxEvolutionChainValue);
+    System.out.println("file: " + file.getAbsolutePath());
 }
 private String formatForSave(String name, Object uiObj){
-    String ret = "\"name\":";
+    String ret = name + ":";
     
     if (uiObj instanceof javax.swing.JCheckBox){
 	ret += ((javax.swing.JCheckBox)uiObj).isSelected();
+    }
+    else if(uiObj instanceof javax.swing.JSpinner){
+	var obj = (javax.swing.JSpinner)uiObj;
+	ret += (Integer)((SpinnerNumberModel)obj.getModel()).getNumber();
+    }
+    else if(uiObj instanceof javax.swing.JRadioButton){
+	ret += ((javax.swing.JRadioButton)uiObj).isSelected();
+    }
+    else if(uiObj instanceof javax.swing.JTextField){
+	ret += ((javax.swing.JTextField)uiObj).getText();
+    } else {
+	JOptionPane.showMessageDialog(null, "Error: " + name + "'s object is not supported");
     }
     
     return ret + "\n";
@@ -767,6 +851,7 @@ private String formatForSave(String name, Object uiObj){
     private javax.swing.JPanel randomize_panel;
     private javax.swing.JCheckBox removeRetreatCost;
     private javax.swing.JCheckBox sanquiTutorialPatch;
+    private javax.swing.JButton savePreset;
     private javax.swing.JButton saveRom;
     private javax.swing.JCheckBox setMaxEvolutionChain;
     private javax.swing.JRadioButton setMetronomeAmount;
