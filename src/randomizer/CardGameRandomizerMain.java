@@ -37,7 +37,7 @@ public class CardGameRandomizerMain extends JFrame {
     JPanel starterPanel;
     final JFileChooser fc;
     JCheckBox rememberBox;
-    String rememberedRom = null;
+    Path lastRomText = Paths.get("./lastRomSettings.txt");
 
     public static RandomizerUI main;
 
@@ -66,7 +66,7 @@ public class CardGameRandomizerMain extends JFrame {
 	fc.setDialogTitle("Choose Rom");
 	fc.setApproveButtonText("Choose");
 	fc.setCurrentDirectory(new File(System.getProperty("user.home")));
-	fc.addChoosableFileFilter(new FileFilter() {
+	FileFilter gameboyFilter = new FileFilter() {
 
 	    public String getDescription() {
 		return "Gameboy rom (*.gbc)";
@@ -80,7 +80,9 @@ public class CardGameRandomizerMain extends JFrame {
 		    return filename.endsWith(".gbc") || filename.endsWith(".gb");
 		}
 	    }
-	});
+	};
+	fc.addChoosableFileFilter(gameboyFilter);
+	fc.setFileFilter(gameboyFilter);
 	fc.addChoosableFileFilter(new FileFilter() {
 
 	    public String getDescription() {
@@ -113,7 +115,15 @@ public class CardGameRandomizerMain extends JFrame {
 	});
 	rememberBox = new JCheckBox("Use Last Rom (Hover)");
 	rememberBox.setSelected(true);
-	rememberBox.setToolTipText("No Remembered Rom");
+	if (Files.exists(lastRomText)) {
+	    try {
+		rememberBox.setToolTipText(new String(Files.readAllBytes(lastRomText)));
+	    } catch (IOException ex) {
+		Logger.getLogger(CardGameRandomizerMain.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	} else {
+	    rememberBox.setToolTipText("No Remembered Rom");
+	}
 	starterPanel = new JPanel();
 
 	starterPanel.setPreferredSize(new Dimension(250, 50));
@@ -128,22 +138,23 @@ public class CardGameRandomizerMain extends JFrame {
 	starterPanel.add(rememberBox, BorderLayout.SOUTH);
 	this.add(starterPanel);
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
     }
 
     public void loadRom() {
-	Path lastRomText = Paths.get("./lastRomSettings.txt");
+
 	File game;
 	try {
-	    if(rememberBox.isSelected()){
+	    if (rememberBox.isSelected() && Files.exists(lastRomText)) {
 		game = new File(new String(Files.readAllBytes(lastRomText)));
-	    }
-	    else{
-		fc.showOpenDialog(this);
+	    } else {
+		if(fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION){
+		    return;
+		}
 		Files.write(lastRomText, fc.getSelectedFile().getAbsolutePath().getBytes());
-		game = fc.getSelectedFile();	
+		game = fc.getSelectedFile();
 	    }
-	    
-	    
+
 	    if (game.getPath().endsWith(".gbc") || game.getPath().endsWith(".gb")) {
 		parseGB(game);
 	    }
