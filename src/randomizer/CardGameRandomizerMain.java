@@ -37,7 +37,7 @@ public class CardGameRandomizerMain extends JFrame {
     JPanel starterPanel;
     final JFileChooser fc;
     JCheckBox rememberBox;
-    Path lastRomText = Paths.get("./lastRomSettings.txt");
+    Path lastRomSettingSavefile = Paths.get("./lastRomSettings.txt");
 
     public static RandomizerUI main;
 
@@ -115,9 +115,9 @@ public class CardGameRandomizerMain extends JFrame {
 	});
 	rememberBox = new JCheckBox("Use Last Rom (Hover)");
 	rememberBox.setSelected(true);
-	if (Files.exists(lastRomText)) {
+	if (Files.exists(lastRomSettingSavefile)) {
 	    try {
-		rememberBox.setToolTipText(new String(Files.readAllBytes(lastRomText)));
+		rememberBox.setToolTipText(new String(Files.readAllBytes(lastRomSettingSavefile)));
 	    } catch (IOException ex) {
 		Logger.getLogger(CardGameRandomizerMain.class.getName()).log(Level.SEVERE, null, ex);
 	    }
@@ -145,13 +145,13 @@ public class CardGameRandomizerMain extends JFrame {
 
 	File game;
 	try {
-	    if (rememberBox.isSelected() && Files.exists(lastRomText)) {
-		game = new File(new String(Files.readAllBytes(lastRomText)));
+	    if (rememberBox.isSelected() && Files.exists(lastRomSettingSavefile)) {
+		game = new File(new String(Files.readAllBytes(lastRomSettingSavefile)));
 	    } else {
 		if(fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION){
 		    return;
 		}
-		Files.write(lastRomText, fc.getSelectedFile().getAbsolutePath().getBytes());
+		Files.write(lastRomSettingSavefile, fc.getSelectedFile().getAbsolutePath().getBytes());
 		game = fc.getSelectedFile();
 	    }
 

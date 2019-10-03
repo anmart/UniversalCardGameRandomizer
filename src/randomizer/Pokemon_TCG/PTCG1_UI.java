@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -26,11 +28,26 @@ import randomizer.RandomizerUI;
  */
 public class PTCG1_UI extends RandomizerUI {
 
+    Path lastPresetSettingSavefile = Paths.get("./lastPresetSettings.txt");
+    String lastPresetLocation = "";
+    String lastPresetStartText = "Only updates when loading preset - ";
+
     /**
      * Creates new form PTCG1_UI
      */
     public PTCG1_UI() {
 	initComponents();
+
+	if (Files.exists(lastPresetSettingSavefile)) {
+	    try {
+		lastPresetLocation = new String(Files.readAllBytes(lastPresetSettingSavefile));
+		useLastPreset.setToolTipText(lastPresetStartText + lastPresetLocation);
+	    } catch (IOException ex) {
+		Logger.getLogger(PTCG1_UI.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	} else {
+	    useLastPreset.setToolTipText(lastPresetStartText + "No Remembered Preset");
+	}
     }
 
     /**
@@ -61,6 +78,7 @@ public class PTCG1_UI extends RandomizerUI {
         startWithInstantText = new javax.swing.JCheckBox();
         startWithNoAnimations = new javax.swing.JCheckBox();
         removeRetreatCost = new javax.swing.JCheckBox();
+        dontChangeMetronome = new javax.swing.JRadioButton();
         randomize_panel = new javax.swing.JPanel();
         randomizeHealth = new javax.swing.JCheckBox();
         healthLow = new javax.swing.JSpinner();
@@ -73,13 +91,13 @@ public class PTCG1_UI extends RandomizerUI {
         randomizeMovesInStages = new javax.swing.JRadioButton();
         randomizeMovesFully = new javax.swing.JRadioButton();
         allowGlitchHPs = new javax.swing.JCheckBox();
-        movesCostSameAsType = new javax.swing.JCheckBox();
         evosHaveMoreHP = new javax.swing.JCheckBox();
         randomizeWeakness = new javax.swing.JCheckBox();
         randomizeResistance = new javax.swing.JCheckBox();
         randomizeRetreatCost = new javax.swing.JCheckBox();
         randomizePokemonTypes = new javax.swing.JCheckBox();
         jSeparator4 = new javax.swing.JSeparator();
+        movesCostSameAsType = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         preserveStarterDecks = new javax.swing.JCheckBox();
@@ -101,11 +119,13 @@ public class PTCG1_UI extends RandomizerUI {
         textSeed = new javax.swing.JTextField();
         savePreset = new javax.swing.JButton();
         loadPreset = new javax.swing.JButton();
+        useLastPreset = new javax.swing.JCheckBox();
 
         deleteInvisibleWall.setText("Delete Mr. Mime's Invisible Wall ability");
         deleteInvisibleWall.setToolTipText("Note: only Mr. Mime can use this ability anywa");
 
         moveCost_buttons.add(movesCostSame);
+        movesCostSame.setSelected(true);
         movesCostSame.setText("Don't change move costs");
         movesCostSame.setToolTipText("Do you really need a tool tip for this one?");
 
@@ -156,6 +176,11 @@ public class PTCG1_UI extends RandomizerUI {
         removeRetreatCost.setText("Remove Retreat Cost");
         removeRetreatCost.setToolTipText("Sets retreat cost for every mon to zero. Out prioritizes randomized retreat cost.");
 
+        metronomeMoves.add(dontChangeMetronome);
+        dontChangeMetronome.setSelected(true);
+        dontChangeMetronome.setText("Don't Change Metronome");
+        dontChangeMetronome.setToolTipText("");
+
         javax.swing.GroupLayout prepatch_panelLayout = new javax.swing.GroupLayout(prepatch_panel);
         prepatch_panel.setLayout(prepatch_panelLayout);
         prepatch_panelLayout.setHorizontalGroup(
@@ -163,32 +188,41 @@ public class PTCG1_UI extends RandomizerUI {
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jSeparator2)
             .addGroup(prepatch_panelLayout.createSequentialGroup()
-                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(movesCostColorless)
-                    .addComponent(movesCostNothing)
-                    .addGroup(prepatch_panelLayout.createSequentialGroup()
-                        .addComponent(movesCostSame)
-                        .addGap(59, 59, 59)
-                        .addComponent(removeRetreatCost)))
-                .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(prepatch_panelLayout.createSequentialGroup()
                 .addComponent(deleteInvisibleWall, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(87, 87, 87))
+                .addGap(119, 119, 119))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, prepatch_panelLayout.createSequentialGroup()
-                .addComponent(deleteMetronome)
-                .addGap(18, 18, 18)
-                .addComponent(setMetronomeAmount)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(metronomeAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(movesCostSame)
+                    .addComponent(movesCostColorless))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(removeRetreatCost)
+                    .addComponent(movesCostNothing))
+                .addGap(40, 40, 40))
             .addGroup(prepatch_panelLayout.createSequentialGroup()
                 .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sanquiTutorialPatch)
-                    .addComponent(startWithInstantText)
-                    .addComponent(startWithNoAnimations))
+                    .addComponent(startWithNoAnimations)
+                    .addGroup(prepatch_panelLayout.createSequentialGroup()
+                        .addComponent(dontChangeMetronome)
+                        .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(prepatch_panelLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(metronomeAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(prepatch_panelLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(setMetronomeAmount)))))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(prepatch_panelLayout.createSequentialGroup()
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(deleteMetronome)
+                    .addGroup(prepatch_panelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(startWithInstantText)
+                            .addComponent(sanquiTutorialPatch))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         prepatch_panelLayout.setVerticalGroup(
             prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,27 +231,30 @@ public class PTCG1_UI extends RandomizerUI {
                 .addComponent(deleteInvisibleWall)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deleteMetronome)
                     .addComponent(setMetronomeAmount)
+                    .addComponent(dontChangeMetronome))
+                .addGap(2, 2, 2)
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(metronomeAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel4)
+                    .addComponent(deleteMetronome))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(movesCostSame)
+                    .addComponent(movesCostNothing))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(movesCostColorless)
                     .addComponent(removeRetreatCost))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(movesCostColorless)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(movesCostNothing)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sanquiTutorialPatch)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startWithInstantText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
                 .addComponent(startWithNoAnimations)
                 .addContainerGap())
         );
@@ -250,6 +287,7 @@ public class PTCG1_UI extends RandomizerUI {
         randomizeSets.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         randomizeMovesGroup.add(dontRandomizeMoves);
+        dontRandomizeMoves.setSelected(true);
         dontRandomizeMoves.setText("Don't randomize moves");
         dontRandomizeMoves.setToolTipText("Keep all moves the same");
 
@@ -264,9 +302,6 @@ public class PTCG1_UI extends RandomizerUI {
         allowGlitchHPs.setText("Allow Glitch HPs");
         allowGlitchHPs.setToolTipText("This is a silly feature added on request");
 
-        movesCostSameAsType.setText("Make Moves Cost Same As Type");
-        movesCostSameAsType.setToolTipText("If Move costs aren't modified in the prepatch tab, this will set the type requirement to be the same as the type of pokemon this is on");
-
         evosHaveMoreHP.setText("Fix Evolution HP Distribution Bug");
         evosHaveMoreHP.setToolTipText("Evolutions have >= health of lower form");
 
@@ -278,6 +313,9 @@ public class PTCG1_UI extends RandomizerUI {
 
         randomizePokemonTypes.setText("Randomize Pokemon Types");
 
+        movesCostSameAsType.setText("Make Moves Cost Same As Type");
+        movesCostSameAsType.setToolTipText("If Move costs aren't modified in the prepatch tab, this will set the type requirement to be the same as the type of pokemon this is on");
+
         javax.swing.GroupLayout randomize_panelLayout = new javax.swing.GroupLayout(randomize_panel);
         randomize_panel.setLayout(randomize_panelLayout);
         randomize_panelLayout.setHorizontalGroup(
@@ -285,46 +323,45 @@ public class PTCG1_UI extends RandomizerUI {
             .addComponent(jSeparator3)
             .addGroup(randomize_panelLayout.createSequentialGroup()
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(randomizeMovesInStages)
-                    .addComponent(randomizeMovesFully)
-                    .addGroup(randomize_panelLayout.createSequentialGroup()
-                        .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(randomizeRetreatCost)
-                            .addComponent(randomizeWeakness))
-                        .addGap(57, 57, 57)
-                        .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(randomizePokemonTypes)
-                            .addComponent(randomizeResistance))))
-                .addGap(0, 39, Short.MAX_VALUE))
-            .addGroup(randomize_panelLayout.createSequentialGroup()
-                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator4)
                     .addGroup(randomize_panelLayout.createSequentialGroup()
                         .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(randomize_panelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(randomizeRetreatCost)
+                                    .addComponent(randomizeWeakness))
+                                .addGap(35, 35, 35)
+                                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(randomizePokemonTypes)
+                                    .addComponent(randomizeResistance)))
+                            .addGroup(randomize_panelLayout.createSequentialGroup()
+                                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(randomize_panelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(randomizeSets))
+                                .addGap(11, 11, 11)
                                 .addComponent(allowGlitchHPs))
-                            .addComponent(randomizeSets))
+                            .addGroup(randomize_panelLayout.createSequentialGroup()
+                                .addComponent(randomizeHealth)
+                                .addGap(18, 18, 18)
+                                .addComponent(evosHaveMoreHP))
+                            .addGroup(randomize_panelLayout.createSequentialGroup()
+                                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(randomizeMovesInStages)
+                                    .addComponent(dontRandomizeMoves))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(randomizeMovesFully)
+                                    .addComponent(movesCostSameAsType))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(randomize_panelLayout.createSequentialGroup()
-                .addComponent(dontRandomizeMoves)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(movesCostSameAsType)
-                .addGap(22, 22, 22))
-            .addGroup(randomize_panelLayout.createSequentialGroup()
-                .addComponent(randomizeHealth)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(evosHaveMoreHP)
-                .addGap(29, 29, 29))
         );
         randomize_panelLayout.setVerticalGroup(
             randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,7 +377,7 @@ public class PTCG1_UI extends RandomizerUI {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(allowGlitchHPs))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -357,12 +394,12 @@ public class PTCG1_UI extends RandomizerUI {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dontRandomizeMoves)
+                    .addComponent(randomizeMovesFully))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(randomizeMovesInStages)
                     .addComponent(movesCostSameAsType))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(randomizeMovesInStages)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(randomizeMovesFully)
-                .addContainerGap())
+                .addGap(30, 30, 30))
         );
 
         tabs.addTab("Randomize Card Data", randomize_panel);
@@ -419,7 +456,7 @@ public class PTCG1_UI extends RandomizerUI {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(jLabel6)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -428,7 +465,7 @@ public class PTCG1_UI extends RandomizerUI {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -486,7 +523,7 @@ public class PTCG1_UI extends RandomizerUI {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(setMaxEvolutionChain)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
+                        .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(randomizeWarps)
@@ -510,7 +547,7 @@ public class PTCG1_UI extends RandomizerUI {
                     .addComponent(keepEvolutionsMonotype)
                     .addComponent(setMaxEvolutionChain)
                     .addComponent(maxEvolutionChainValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(26, 26, 26))
         );
@@ -538,6 +575,7 @@ public class PTCG1_UI extends RandomizerUI {
         jLabel3.setText("Seed:");
 
         savePreset.setText("Save Preset");
+        savePreset.setToolTipText("Create a preset file so you don't have to do the same settings over and over again!");
         savePreset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 savePresetActionPerformed(evt);
@@ -545,10 +583,19 @@ public class PTCG1_UI extends RandomizerUI {
         });
 
         loadPreset.setText("Load Preset");
-        loadPreset.setToolTipText("");
+        loadPreset.setToolTipText("Very Picky - will break if preset file isn't valid");
         loadPreset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadPresetActionPerformed(evt);
+            }
+        });
+
+        useLastPreset.setSelected(true);
+        useLastPreset.setText("Use Last Preset (hover)");
+        useLastPreset.setToolTipText("");
+        useLastPreset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                useLastPresetActionPerformed(evt);
             }
         });
 
@@ -558,19 +605,21 @@ public class PTCG1_UI extends RandomizerUI {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textSeed, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveRom)
+                        .addGap(28, 28, 28))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(savePreset)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(loadPreset)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(textSeed, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saveRom)
-                        .addGap(28, 28, 28))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(useLastPreset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,7 +627,8 @@ public class PTCG1_UI extends RandomizerUI {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(savePreset)
-                    .addComponent(loadPreset))
+                    .addComponent(loadPreset)
+                    .addComponent(useLastPreset))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textSeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -592,16 +642,15 @@ public class PTCG1_UI extends RandomizerUI {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -625,14 +674,6 @@ public class PTCG1_UI extends RandomizerUI {
 	    // TODO add your handling code here:
 	}//GEN-LAST:event_randomizeEvolutionsActionPerformed
 
-    private void setMetronomeAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setMetronomeAmountActionPerformed
-	// TODO add your handling code here:
-    }//GEN-LAST:event_setMetronomeAmountActionPerformed
-
-    private void startWithNoAnimationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startWithNoAnimationsActionPerformed
-	// TODO add your handling code here:
-    }//GEN-LAST:event_startWithNoAnimationsActionPerformed
-
     private void savePresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePresetActionPerformed
 	// TODO add your handling code here:
 	JFileChooser guiStateSaveChooser = new JFileChooser();
@@ -654,36 +695,60 @@ public class PTCG1_UI extends RandomizerUI {
 	guiStateSaveChooser.addChoosableFileFilter(ff);
 	guiStateSaveChooser.setFileFilter(ff);
 	guiStateSaveChooser.setSelectedFile(new File("rando_preset.preset"));
-	if(guiStateSaveChooser.showDialog(PTCG1_UI.this, "Save") == JFileChooser.APPROVE_OPTION){
+	if (guiStateSaveChooser.showDialog(PTCG1_UI.this, "Save") == JFileChooser.APPROVE_OPTION) {
 	    saveCurrentGUIState(guiStateSaveChooser.getSelectedFile());
 	}
     }//GEN-LAST:event_savePresetActionPerformed
 
     private void loadPresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadPresetActionPerformed
-        // TODO add your handling code here:
-	JFileChooser guiStateSaveChooser = new JFileChooser();
-	FileFilter ff = new FileFilter() {
+	// TODO add your handling code here:
+	if (useLastPreset.isSelected() && lastPresetLocation != null && !lastPresetLocation.equals("")) {
+	    loadGUIState(new File(lastPresetLocation));
+	} else {
 
-	    public String getDescription() {
-		return "Preset (*.preset)";
-	    }
+	    JFileChooser guiStateSaveChooser = new JFileChooser();
+	    FileFilter ff = new FileFilter() {
 
-	    public boolean accept(File f) {
-		if (f.isDirectory()) {
-		    return true;
-		} else {
-		    String filename = f.getName().toLowerCase();
-		    return filename.endsWith(".preset");
+		public String getDescription() {
+		    return "Preset (*.preset)";
+		}
+
+		public boolean accept(File f) {
+		    if (f.isDirectory()) {
+			return true;
+		    } else {
+			String filename = f.getName().toLowerCase();
+			return filename.endsWith(".preset");
+		    }
+		}
+	    };
+	    guiStateSaveChooser.addChoosableFileFilter(ff);
+	    guiStateSaveChooser.setFileFilter(ff);
+	    guiStateSaveChooser.setSelectedFile(new File("rando_preset.preset"));
+	    if (guiStateSaveChooser.showDialog(PTCG1_UI.this, "Load") == JFileChooser.APPROVE_OPTION) {
+		loadGUIState(guiStateSaveChooser.getSelectedFile());
+		try {
+		    lastPresetLocation = guiStateSaveChooser.getSelectedFile().getAbsolutePath();
+		    useLastPreset.setToolTipText(lastPresetStartText + lastPresetLocation);
+		    Files.write(lastPresetSettingSavefile, lastPresetLocation.getBytes());
+		} catch (IOException ex) {
+		    Logger.getLogger(PTCG1_UI.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	    }
-	};
-	guiStateSaveChooser.addChoosableFileFilter(ff);
-	guiStateSaveChooser.setFileFilter(ff);
-	guiStateSaveChooser.setSelectedFile(new File("rando_preset.preset"));
-	if(guiStateSaveChooser.showDialog(PTCG1_UI.this, "Load") == JFileChooser.APPROVE_OPTION){
-	    loadGUIState(guiStateSaveChooser.getSelectedFile());
 	}
     }//GEN-LAST:event_loadPresetActionPerformed
+
+    private void startWithNoAnimationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startWithNoAnimationsActionPerformed
+	// TODO add your handling code here:
+    }//GEN-LAST:event_startWithNoAnimationsActionPerformed
+
+    private void setMetronomeAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setMetronomeAmountActionPerformed
+	// TODO add your handling code here:
+    }//GEN-LAST:event_setMetronomeAmountActionPerformed
+
+    private void useLastPresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useLastPresetActionPerformed
+	// TODO add your handling code here:
+    }//GEN-LAST:event_useLastPresetActionPerformed
 
     public void saveRom() {
 
@@ -801,6 +866,7 @@ public class PTCG1_UI extends RandomizerUI {
     public void saveCurrentGUIState(File file) {
 	String finalSave = "v1.0\n";
 	finalSave += formatForSave("mrmime", deleteInvisibleWall);
+	finalSave += formatForSave("dontChangeMetronome", dontChangeMetronome);
 	finalSave += formatForSave("deleteMetronome", deleteMetronome);
 	finalSave += formatForSave("setMetronomeAmount", setMetronomeAmount);
 	finalSave += formatForSave("metronomeAmount", metronomeAmount);
@@ -815,6 +881,7 @@ public class PTCG1_UI extends RandomizerUI {
 	finalSave += formatForSave("healthHigh", healthHigh);
 	finalSave += formatForSave("evosHaveMoreHP", evosHaveMoreHP);
 	finalSave += formatForSave("allowGlitchHPs", allowGlitchHPs);
+	finalSave += formatForSave("randomizeHealth", randomizeHealth);
 	finalSave += formatForSave("randomizeWeakness", randomizeWeakness);
 	finalSave += formatForSave("randomizeRetreatCost", randomizeRetreatCost);
 	finalSave += formatForSave("randomizeSets", randomizeSets);
@@ -849,10 +916,40 @@ public class PTCG1_UI extends RandomizerUI {
 	    } catch (IOException ex) {
 		Logger.getLogger(PTCG1_UI.class.getName()).log(Level.SEVERE, null, ex);
 	    }
-	    
-	    System.out.println(data);
-	}
-	else{
+	    loadFromSave("mrmime", deleteInvisibleWall, data);
+	    loadFromSave("dontChangeMetronome", dontChangeMetronome, data);
+	    loadFromSave("deleteMetronome", deleteMetronome, data);
+	    loadFromSave("setMetronomeAmount", setMetronomeAmount, data);
+	    loadFromSave("metronomeAmount", metronomeAmount, data);
+	    loadFromSave("movesCostSame", movesCostSame, data);
+	    loadFromSave("movesCostColorless", movesCostColorless, data);
+	    loadFromSave("movesCostNothing", movesCostNothing, data);
+	    loadFromSave("removeRetreatCost", removeRetreatCost, data);
+	    loadFromSave("sanquiTutorialPatch", sanquiTutorialPatch, data);
+	    loadFromSave("startWithInstantText", startWithInstantText, data);
+	    loadFromSave("startWithNoAnimations", startWithNoAnimations, data);
+	    loadFromSave("healthLow", healthLow, data);
+	    loadFromSave("healthHigh", healthHigh, data);
+	    loadFromSave("evosHaveMoreHP", evosHaveMoreHP, data);
+	    loadFromSave("allowGlitchHPs", allowGlitchHPs, data);
+	    loadFromSave("randomizeHealth", randomizeHealth, data);
+	    loadFromSave("randomizeWeakness", randomizeWeakness, data);
+	    loadFromSave("randomizeRetreatCost", randomizeRetreatCost, data);
+	    loadFromSave("randomizeSets", randomizeSets, data);
+	    loadFromSave("randomizeResistance", randomizeResistance, data);
+	    loadFromSave("randomizePokemonTypes", randomizePokemonTypes, data);
+	    loadFromSave("dontRandomizeMoves", dontRandomizeMoves, data);
+	    loadFromSave("randomizeMovesInStages", randomizeMovesInStages, data);
+	    loadFromSave("randomizeMovesFully", randomizeMovesFully, data);
+	    loadFromSave("movesCostSameAsType", movesCostSameAsType, data);
+	    loadFromSave("randomizeDecks", randomizeDecks, data);
+	    loadFromSave("preserveStarterDecks", preserveStarterDecks, data);
+	    loadFromSave("randomizeWarps", randomizeWarps, data);
+	    loadFromSave("randomizeEvolutions", randomizeEvolutions, data);
+	    loadFromSave("keepEvolutionsMonotype", keepEvolutionsMonotype, data);
+	    loadFromSave("setMaxEvolutionChain", setMaxEvolutionChain, data);
+	    loadFromSave("maxEvolutionChainValue", maxEvolutionChainValue, data);
+	} else {
 	    JOptionPane.showMessageDialog(null, "File does not exist, can't load settings");
 	}
     }
@@ -875,14 +972,35 @@ public class PTCG1_UI extends RandomizerUI {
 
 	return ret + "\n";
     }
-    private void loadFromSave(String name, Object uiObj, String data){
-	
+
+    private void loadFromSave(String name, Object uiObj, String data) {
+	int nameLoc = data.indexOf(name);
+	if (nameLoc < 0) {
+	    JOptionPane.showMessageDialog(null, "Error: " + name + " could not be found");
+	    return;
+	}
+	String settingString = data.substring(nameLoc + name.length() + 1, data.indexOf("\n", nameLoc));
+
+	if (uiObj instanceof javax.swing.JCheckBox) {
+	    ((javax.swing.JCheckBox) uiObj).setSelected(Boolean.parseBoolean(settingString));
+	} else if (uiObj instanceof javax.swing.JSpinner) {
+	    var obj = (javax.swing.JSpinner) uiObj;
+	    ((SpinnerNumberModel) obj.getModel()).setValue(Integer.parseInt(settingString));
+	} else if (uiObj instanceof javax.swing.JRadioButton) {
+	    ((javax.swing.JRadioButton) uiObj).setSelected(Boolean.parseBoolean(settingString));
+	} else if (uiObj instanceof javax.swing.JTextField) {
+	    ((javax.swing.JTextField) uiObj).setText(settingString);
+	} else {
+	    JOptionPane.showMessageDialog(null, "Error: " + name + "'s object is not supported");
+	}
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox allowGlitchHPs;
     private javax.swing.JCheckBox deleteInvisibleWall;
     private javax.swing.JRadioButton deleteMetronome;
+    private javax.swing.JRadioButton dontChangeMetronome;
     private javax.swing.JRadioButton dontRandomizeMoves;
     private javax.swing.JCheckBox evosHaveMoreHP;
     private javax.swing.JSpinner healthHigh;
@@ -939,5 +1057,6 @@ public class PTCG1_UI extends RandomizerUI {
     private javax.swing.JCheckBox startWithNoAnimations;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTextField textSeed;
+    private javax.swing.JCheckBox useLastPreset;
     // End of variables declaration//GEN-END:variables
 }
