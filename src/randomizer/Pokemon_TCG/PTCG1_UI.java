@@ -85,7 +85,6 @@ public class PTCG1_UI extends RandomizerUI {
         healthHigh = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        randomizeSets = new javax.swing.JCheckBox();
         jSeparator3 = new javax.swing.JSeparator();
         dontRandomizeMoves = new javax.swing.JRadioButton();
         randomizeMovesInStages = new javax.swing.JRadioButton();
@@ -102,6 +101,9 @@ public class PTCG1_UI extends RandomizerUI {
         jPanel5 = new javax.swing.JPanel();
         preserveStarterDecks = new javax.swing.JCheckBox();
         randomizeDecks = new javax.swing.JCheckBox();
+        randomizeSets = new javax.swing.JCheckBox();
+        changePromoCards = new javax.swing.JCheckBox();
+        jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -200,19 +202,16 @@ public class PTCG1_UI extends RandomizerUI {
                     .addComponent(movesCostNothing))
                 .addGap(40, 40, 40))
             .addGroup(prepatch_panelLayout.createSequentialGroup()
-                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(startWithNoAnimations)
+                .addComponent(dontChangeMetronome)
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(prepatch_panelLayout.createSequentialGroup()
-                        .addComponent(dontChangeMetronome)
-                        .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(prepatch_panelLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(metronomeAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(prepatch_panelLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(setMetronomeAmount)))))
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(metronomeAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(prepatch_panelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(setMetronomeAmount)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(prepatch_panelLayout.createSequentialGroup()
                 .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,8 +219,11 @@ public class PTCG1_UI extends RandomizerUI {
                     .addGroup(prepatch_panelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(startWithInstantText)
-                            .addComponent(sanquiTutorialPatch))))
+                            .addComponent(startWithNoAnimations)
+                            .addGroup(prepatch_panelLayout.createSequentialGroup()
+                                .addComponent(sanquiTutorialPatch)
+                                .addGap(18, 18, 18)
+                                .addComponent(startWithInstantText)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         prepatch_panelLayout.setVerticalGroup(
@@ -251,10 +253,10 @@ public class PTCG1_UI extends RandomizerUI {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(sanquiTutorialPatch)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(startWithInstantText)
-                .addGap(6, 6, 6)
+                .addGroup(prepatch_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sanquiTutorialPatch)
+                    .addComponent(startWithInstantText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(startWithNoAnimations)
                 .addContainerGap())
         );
@@ -282,10 +284,6 @@ public class PTCG1_UI extends RandomizerUI {
 
         jLabel2.setText("Max:");
 
-        randomizeSets.setText("Randomize booster packs");
-        randomizeSets.setToolTipText("Randomize what set each pokemon comes from");
-        randomizeSets.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         randomizeMovesGroup.add(dontRandomizeMoves);
         dontRandomizeMoves.setSelected(true);
         dontRandomizeMoves.setText("Don't randomize moves");
@@ -302,6 +300,7 @@ public class PTCG1_UI extends RandomizerUI {
         allowGlitchHPs.setText("Allow Glitch HPs");
         allowGlitchHPs.setToolTipText("This is a silly feature added on request");
 
+        evosHaveMoreHP.setSelected(true);
         evosHaveMoreHP.setText("Fix Evolution HP Distribution Bug");
         evosHaveMoreHP.setToolTipText("Evolutions have >= health of lower form");
 
@@ -335,17 +334,14 @@ public class PTCG1_UI extends RandomizerUI {
                                     .addComponent(randomizePokemonTypes)
                                     .addComponent(randomizeResistance)))
                             .addGroup(randomize_panelLayout.createSequentialGroup()
-                                .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(randomize_panelLayout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(randomizeSets))
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(healthLow, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(healthHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(11, 11, 11)
                                 .addComponent(allowGlitchHPs))
                             .addGroup(randomize_panelLayout.createSequentialGroup()
@@ -387,9 +383,7 @@ public class PTCG1_UI extends RandomizerUI {
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(randomizeRetreatCost)
                     .addComponent(randomizePokemonTypes))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(randomizeSets)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(25, 25, 25)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(randomize_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -417,55 +411,90 @@ public class PTCG1_UI extends RandomizerUI {
         randomizeDecks.setText("Randomize decks");
         randomizeDecks.setToolTipText("Randomizes preconstructed decks");
 
+        randomizeSets.setText("Randomize booster packs");
+        randomizeSets.setToolTipText("Randomize what set each pokemon comes from");
+        randomizeSets.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        randomizeSets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomizeSetsActionPerformed(evt);
+            }
+        });
+
+        changePromoCards.setText("Change Promo Cards");
+        changePromoCards.setToolTipText("If selected, promos are randomized and any source of promos (Ronald, Legendary Cards, etc) is updated");
+        changePromoCards.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changePromoCardsActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setText("ABOVE IS A WIP (HOVER)");
+        jLabel8.setToolTipText("\"Change Promo Cards\" is a work in progress. Every source of promo codes has to be updated for every source of promos. Check the Github Repo to see what's been updated so far");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(preserveStarterDecks)
+                .addGap(18, 18, 18)
+                .addComponent(changePromoCards)
+                .addContainerGap(29, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(preserveStarterDecks))
-                    .addComponent(randomizeDecks))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(randomizeDecks)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(randomizeSets)))
+                .addGap(19, 19, 19))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addComponent(randomizeDecks)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(randomizeDecks)
+                    .addComponent(randomizeSets))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(preserveStarterDecks)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(preserveStarterDecks)
+                    .addComponent(changePromoCards))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel8)
+                .addContainerGap())
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel5.setText("Coming soon. Suggest ideas for this section at #pokemon_only");
-
-        jLabel6.setText("Or email me at Aroymart@gmail.com");
+        jLabel5.setText("Suggest ideas by emailing me at Aroymart@gmail.com");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(jLabel6)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -483,7 +512,7 @@ public class PTCG1_UI extends RandomizerUI {
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabs.addTab("Randomize Deck Data", jPanel2);
+        tabs.addTab("Randomize Card Sources", jPanel2);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -563,7 +592,7 @@ public class PTCG1_UI extends RandomizerUI {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        tabs.addTab("Other / Beta", jPanel3);
+        tabs.addTab("Other", jPanel3);
 
         saveRom.setText("Save Rom");
         saveRom.addActionListener(new java.awt.event.ActionListener() {
@@ -629,7 +658,7 @@ public class PTCG1_UI extends RandomizerUI {
                     .addComponent(savePreset)
                     .addComponent(loadPreset)
                     .addComponent(useLastPreset))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textSeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
@@ -648,7 +677,7 @@ public class PTCG1_UI extends RandomizerUI {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -750,6 +779,14 @@ public class PTCG1_UI extends RandomizerUI {
 	// TODO add your handling code here:
     }//GEN-LAST:event_useLastPresetActionPerformed
 
+    private void changePromoCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePromoCardsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_changePromoCardsActionPerformed
+
+    private void randomizeSetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeSetsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_randomizeSetsActionPerformed
+
     public void saveRom() {
 
 	PTCG1_Randomizer rando = new PTCG1_Randomizer(gameFile, textSeed.getText());
@@ -798,7 +835,7 @@ public class PTCG1_UI extends RandomizerUI {
 	    rando.randomizeDeckPointersInRom(preserveStarterDecks.isSelected());
 	}
 	if (randomizeSets.isSelected()) {
-	    rando.randomizeAllSets();
+	    rando.randomizeAllSets(changePromoCards.isSelected());
 	}
 	if (randomizeRetreatCost.isSelected()) {
 	    rando.randomizeRetreatCosts();
@@ -898,6 +935,7 @@ public class PTCG1_UI extends RandomizerUI {
 	finalSave += formatForSave("keepEvolutionsMonotype", keepEvolutionsMonotype);
 	finalSave += formatForSave("setMaxEvolutionChain", setMaxEvolutionChain);
 	finalSave += formatForSave("maxEvolutionChainValue", maxEvolutionChainValue);
+	finalSave += formatForSave("changePromoCards", changePromoCards);
 	try {
 	    PrintWriter out = new PrintWriter(file);
 	    out.print(finalSave);
@@ -949,6 +987,7 @@ public class PTCG1_UI extends RandomizerUI {
 	    loadFromSave("keepEvolutionsMonotype", keepEvolutionsMonotype, data);
 	    loadFromSave("setMaxEvolutionChain", setMaxEvolutionChain, data);
 	    loadFromSave("maxEvolutionChainValue", maxEvolutionChainValue, data);
+	    loadFromSave("changePromoCards", changePromoCards, data);
 	} else {
 	    JOptionPane.showMessageDialog(null, "File does not exist, can't load settings");
 	}
@@ -998,6 +1037,7 @@ public class PTCG1_UI extends RandomizerUI {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox allowGlitchHPs;
+    private javax.swing.JCheckBox changePromoCards;
     private javax.swing.JCheckBox deleteInvisibleWall;
     private javax.swing.JRadioButton deleteMetronome;
     private javax.swing.JRadioButton dontChangeMetronome;
@@ -1012,6 +1052,7 @@ public class PTCG1_UI extends RandomizerUI {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -264,20 +264,26 @@ public class PTCG1_Randomizer {
 
 	}
 
-	public void randomizeAllSets(){
+	public void randomizeAllSets(boolean changePromos){
 		//Note: randomizes sets in a way that there are the exact same amount of pokemon in each set.
 		//just redistributes which pokemon has which set flags
 		ArrayList<Byte> setList = new ArrayList<Byte>();
-
+		ArrayList<MonCardData> validMons = new ArrayList<MonCardData>();
 		//throw all set flags into an arraylist
-		for(MonCardData mon : mons){
-			setList.add(mon.set);
+		for(int i = 0; i < mons.length; i++){
+			
+		    // 0x40 is promotional set. Other set info is in lower nybble so discard that
+		    if(((mons[i].set&0xf0) != 0x40) || changePromos){
+			//System.out.println(Integer.toHexString(mons[i].set));
+			validMons.add(mons[i]);
+			setList.add(mons[i].set);
+		    }
 
 		}
 
 		//randomize setList
 		Collections.shuffle(setList, rand);
-		for(MonCardData mon : mons){
+		for(MonCardData mon : validMons){
 			mon.set = setList.get(0);
 			setList.remove(0);
 		}
