@@ -5,6 +5,7 @@
  */
 package randomizer.Pokemon_TCG;
 
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -146,6 +147,11 @@ public class PTCG1_UI extends RandomizerUI {
         metronomeMoves.add(deleteMetronome);
         deleteMetronome.setText("Delete Metronome");
         deleteMetronome.setToolTipText("Removes Metronome for more \"Hardcore\" players");
+        deleteMetronome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMetronomeActionPerformed(evt);
+            }
+        });
 
         metronomeMoves.add(setMetronomeAmount);
         setMetronomeAmount.setText("Set Metronome Amount");
@@ -159,6 +165,7 @@ public class PTCG1_UI extends RandomizerUI {
         metronomeAmount.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         metronomeAmount.setText("2");
         metronomeAmount.setToolTipText("If this isn't an integer the randomizer will crash and you will deserve it");
+        metronomeAmount.setEnabled(false);
 
         jLabel4.setText("Amount:");
 
@@ -182,6 +189,11 @@ public class PTCG1_UI extends RandomizerUI {
         dontChangeMetronome.setSelected(true);
         dontChangeMetronome.setText("Don't Change Metronome");
         dontChangeMetronome.setToolTipText("");
+        dontChangeMetronome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dontChangeMetronomeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout prepatch_panelLayout = new javax.swing.GroupLayout(prepatch_panel);
         prepatch_panel.setLayout(prepatch_panelLayout);
@@ -265,8 +277,14 @@ public class PTCG1_UI extends RandomizerUI {
 
         randomizeHealth.setText("Randomize Pokemon health");
         randomizeHealth.setToolTipText("On the range set below.");
+        randomizeHealth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomizeHealthActionPerformed(evt);
+            }
+        });
 
         healthLow.setModel(new javax.swing.SpinnerNumberModel(10, 10, 120, 10));
+        healthLow.setEnabled(false);
         healthLow.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 healthLowStateChanged(evt);
@@ -274,6 +292,7 @@ public class PTCG1_UI extends RandomizerUI {
         });
 
         healthHigh.setModel(new javax.swing.SpinnerNumberModel(120, 10, 120, 10));
+        healthHigh.setEnabled(false);
         healthHigh.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 healthHighStateChanged(evt);
@@ -299,6 +318,7 @@ public class PTCG1_UI extends RandomizerUI {
 
         allowGlitchHPs.setText("Allow Glitch HPs");
         allowGlitchHPs.setToolTipText("This is a silly feature added on request");
+        allowGlitchHPs.setEnabled(false);
 
         evosHaveMoreHP.setSelected(true);
         evosHaveMoreHP.setText("Fix Evolution HP Distribution Bug");
@@ -402,6 +422,7 @@ public class PTCG1_UI extends RandomizerUI {
 
         preserveStarterDecks.setText("Don't Randomize Starter Decks");
         preserveStarterDecks.setToolTipText("Keeps starter decks constant so you always have your deck and a trunk");
+        preserveStarterDecks.setEnabled(false);
         preserveStarterDecks.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 preserveStarterDecksActionPerformed(evt);
@@ -410,6 +431,11 @@ public class PTCG1_UI extends RandomizerUI {
 
         randomizeDecks.setText("Randomize decks");
         randomizeDecks.setToolTipText("Randomizes preconstructed decks");
+        randomizeDecks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomizeDecksActionPerformed(evt);
+            }
+        });
 
         randomizeSets.setText("Randomize booster packs");
         randomizeSets.setToolTipText("Randomize what set each pokemon comes from");
@@ -422,6 +448,7 @@ public class PTCG1_UI extends RandomizerUI {
 
         changePromoCards.setText("Change Promo Cards");
         changePromoCards.setToolTipText("If selected, promos are randomized and any source of promos (Ronald, Legendary Cards, etc) is updated");
+        changePromoCards.setEnabled(false);
         changePromoCards.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changePromoCardsActionPerformed(evt);
@@ -529,13 +556,16 @@ public class PTCG1_UI extends RandomizerUI {
 
         keepEvolutionsMonotype.setText("Monotype Evolution Chain");
         keepEvolutionsMonotype.setToolTipText("Generated after types are modified.");
+        keepEvolutionsMonotype.setEnabled(false);
 
         setMaxEvolutionChain.setText("Set Max Evolution Size:");
         setMaxEvolutionChain.setToolTipText("If selected, sets evolution chains between 1 and value in the textbox");
+        setMaxEvolutionChain.setEnabled(false);
 
         maxEvolutionChainValue.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         maxEvolutionChainValue.setText("3");
         maxEvolutionChainValue.setToolTipText("if <1 or not a number, sets evolution size to infinite");
+        maxEvolutionChainValue.setEnabled(false);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setText("THESE MAY BREAK SOMETHING.");
@@ -687,20 +717,15 @@ public class PTCG1_UI extends RandomizerUI {
 	    saveRom();
 	}//GEN-LAST:event_saveRomActionPerformed
 
-	private void healthLowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_healthLowStateChanged
-	    ((SpinnerNumberModel) healthHigh.getModel()).setMinimum((Comparable) ((SpinnerNumberModel) (healthLow.getModel())).getNumber());
-	}//GEN-LAST:event_healthLowStateChanged
-
-	private void healthHighStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_healthHighStateChanged
-	    ((SpinnerNumberModel) healthLow.getModel()).setMaximum((Comparable) ((SpinnerNumberModel) (healthHigh.getModel())).getNumber());
-	}//GEN-LAST:event_healthHighStateChanged
-
 	private void preserveStarterDecksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preserveStarterDecksActionPerformed
 	    // TODO add your handling code here:
 	}//GEN-LAST:event_preserveStarterDecksActionPerformed
 
 	private void randomizeEvolutionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeEvolutionsActionPerformed
 	    // TODO add your handling code here:
+	    keepEvolutionsMonotype.setEnabled(randomizeEvolutions.isSelected());
+	    setMaxEvolutionChain.setEnabled(randomizeEvolutions.isSelected());
+	    maxEvolutionChainValue.setEnabled(randomizeEvolutions.isSelected());
 	}//GEN-LAST:event_randomizeEvolutionsActionPerformed
 
     private void savePresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePresetActionPerformed
@@ -773,6 +798,8 @@ public class PTCG1_UI extends RandomizerUI {
 
     private void setMetronomeAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setMetronomeAmountActionPerformed
 	// TODO add your handling code here:
+	if(setMetronomeAmount.isSelected())
+	    metronomeAmount.setEnabled(true);
     }//GEN-LAST:event_setMetronomeAmountActionPerformed
 
     private void useLastPresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useLastPresetActionPerformed
@@ -785,7 +812,42 @@ public class PTCG1_UI extends RandomizerUI {
 
     private void randomizeSetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeSetsActionPerformed
         // TODO add your handling code here:
+	changePromoCards.setEnabled(randomizeSets.isSelected());
     }//GEN-LAST:event_randomizeSetsActionPerformed
+
+    private void healthHighStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_healthHighStateChanged
+        ((SpinnerNumberModel) healthLow.getModel()).setMaximum((Comparable) ((SpinnerNumberModel) (healthHigh.getModel())).getNumber());
+    }//GEN-LAST:event_healthHighStateChanged
+
+    private void healthLowStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_healthLowStateChanged
+        ((SpinnerNumberModel) healthHigh.getModel()).setMinimum((Comparable) ((SpinnerNumberModel) (healthLow.getModel())).getNumber());
+    }//GEN-LAST:event_healthLowStateChanged
+
+    private void randomizeDecksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeDecksActionPerformed
+        // TODO add your handling code here:
+        preserveStarterDecks.setEnabled(randomizeDecks.isSelected());
+    }//GEN-LAST:event_randomizeDecksActionPerformed
+
+    private void randomizeHealthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomizeHealthActionPerformed
+        // TODO add your handling code here:
+	healthLow.setEnabled(randomizeHealth.isSelected());
+	healthHigh.setEnabled(randomizeHealth.isSelected());
+	allowGlitchHPs.setEnabled(randomizeHealth.isSelected());
+    }//GEN-LAST:event_randomizeHealthActionPerformed
+
+    private void dontChangeMetronomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dontChangeMetronomeActionPerformed
+        // TODO add your handling code here:
+	if(dontChangeMetronome.isSelected()){
+	    metronomeAmount.setEnabled(false);
+	}
+    }//GEN-LAST:event_dontChangeMetronomeActionPerformed
+
+    private void deleteMetronomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMetronomeActionPerformed
+        // TODO add your handling code here:
+	if(deleteMetronome.isSelected()){
+	    metronomeAmount.setEnabled(false);
+	}
+    }//GEN-LAST:event_deleteMetronomeActionPerformed
 
     public void saveRom() {
 
@@ -1021,12 +1083,20 @@ public class PTCG1_UI extends RandomizerUI {
 	String settingString = data.substring(nameLoc + name.length() + 1, data.indexOf("\n", nameLoc));
 
 	if (uiObj instanceof javax.swing.JCheckBox) {
-	    ((javax.swing.JCheckBox) uiObj).setSelected(Boolean.parseBoolean(settingString));
+	    var obj = ((javax.swing.JCheckBox) uiObj);
+	    obj.setSelected(Boolean.parseBoolean(settingString));
+	    for (ActionListener b : obj.getActionListeners()){
+		b.actionPerformed(null);
+	    }
 	} else if (uiObj instanceof javax.swing.JSpinner) {
 	    var obj = (javax.swing.JSpinner) uiObj;
 	    ((SpinnerNumberModel) obj.getModel()).setValue(Integer.parseInt(settingString));
 	} else if (uiObj instanceof javax.swing.JRadioButton) {
-	    ((javax.swing.JRadioButton) uiObj).setSelected(Boolean.parseBoolean(settingString));
+	    var obj = ((javax.swing.JRadioButton) uiObj);
+	    obj.setSelected(Boolean.parseBoolean(settingString));
+	    for (ActionListener b : obj.getActionListeners()){
+		b.actionPerformed(null);
+	    }
 	} else if (uiObj instanceof javax.swing.JTextField) {
 	    ((javax.swing.JTextField) uiObj).setText(settingString);
 	} else {

@@ -205,6 +205,9 @@
                 <Property name="text" type="java.lang.String" value="Delete Metronome"/>
                 <Property name="toolTipText" type="java.lang.String" value="Removes Metronome for more &quot;Hardcore&quot; players"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteMetronomeActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="setMetronomeAmount">
               <Properties>
@@ -223,6 +226,7 @@
                 <Property name="horizontalAlignment" type="int" value="11"/>
                 <Property name="text" type="java.lang.String" value="2"/>
                 <Property name="toolTipText" type="java.lang.String" value="If this isn&apos;t an integer the randomizer will crash and you will deserve it"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
@@ -262,6 +266,9 @@
                 <Property name="text" type="java.lang.String" value="Don&apos;t Change Metronome"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dontChangeMetronomeActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -381,12 +388,16 @@
                 <Property name="text" type="java.lang.String" value="Randomize Pokemon health"/>
                 <Property name="toolTipText" type="java.lang.String" value="On the range set below."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="randomizeHealthActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSpinner" name="healthLow">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="10" maximum="120" minimum="10" numberType="java.lang.Integer" stepSize="10" type="number"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="healthLowStateChanged"/>
@@ -397,6 +408,7 @@
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="120" maximum="120" minimum="10" numberType="java.lang.Integer" stepSize="10" type="number"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="healthHighStateChanged"/>
@@ -446,6 +458,7 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Allow Glitch HPs"/>
                 <Property name="toolTipText" type="java.lang.String" value="This is a silly feature added on request"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="evosHaveMoreHP">
@@ -572,6 +585,7 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Don&apos;t Randomize Starter Decks"/>
                     <Property name="toolTipText" type="java.lang.String" value="Keeps starter decks constant so you always have your deck and a trunk"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="preserveStarterDecksActionPerformed"/>
@@ -582,6 +596,9 @@
                     <Property name="text" type="java.lang.String" value="Randomize decks"/>
                     <Property name="toolTipText" type="java.lang.String" value="Randomizes preconstructed decks"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="randomizeDecksActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="randomizeSets">
                   <Properties>
@@ -597,6 +614,7 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Change Promo Cards"/>
                     <Property name="toolTipText" type="java.lang.String" value="If selected, promos are randomized and any source of promos (Ronald, Legendary Cards, etc) is updated"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changePromoCardsActionPerformed"/>
@@ -765,12 +783,14 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Monotype Evolution Chain"/>
                     <Property name="toolTipText" type="java.lang.String" value="Generated after types are modified."/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="setMaxEvolutionChain">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Set Max Evolution Size:"/>
                     <Property name="toolTipText" type="java.lang.String" value="If selected, sets evolution chains between 1 and value in the textbox"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="maxEvolutionChainValue">
@@ -778,6 +798,7 @@
                     <Property name="horizontalAlignment" type="int" value="11"/>
                     <Property name="text" type="java.lang.String" value="3"/>
                     <Property name="toolTipText" type="java.lang.String" value="if &lt;1 or not a number, sets evolution size to infinite"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel7">
