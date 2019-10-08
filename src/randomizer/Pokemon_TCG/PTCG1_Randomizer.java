@@ -16,6 +16,18 @@ import randomizer.Word;
 
 public class PTCG1_Randomizer {
 
+	// If we end up using this for move effects instead of a patch, make
+	// this a series of classes with different value sizes
+	class HardCodedValue{
+	    int[] locations;
+	    byte value;
+	    public HardCodedValue(int[] loc, int val){
+		value = (byte) val;
+		locations = loc;
+		
+	    }
+	}
+    
 	byte[] rom;
 	MonCardData[] mons;
 
@@ -29,6 +41,12 @@ public class PTCG1_Randomizer {
 	Move blankMove = new Move();
 
 	boolean maxEvolutionsHaveBeenFound = false;
+	
+	// this is gonna be messy
+	HardCodedValue[] promoCards = new HardCodedValue[]{
+	    new HardCodedValue(new int[] {0xe8ee, 0xe8f0}, 0xAD),    // RONALD 2, JIGGLYPUFF
+	    new HardCodedValue(new int[] {0xe94c, 0xe94e}, 0xCE),    // RONALD 3, SUPER ENERGY RETRIEVAL
+	};
 	
 	
 	public PTCG1_Randomizer(File game, String seed){
@@ -96,7 +114,7 @@ public class PTCG1_Randomizer {
 		for(int i = 0; i < monAmount; i++){
 			mons[i].writeToRom(rom, monStartLocation + i*monSize);
 		}
-
+		
 	}
 
 	// for both of these, consider making them work by swapping existing values, or otherwise controlling the values better
@@ -274,7 +292,6 @@ public class PTCG1_Randomizer {
 			
 		    // 0x40 is promotional set. Other set info is in lower nybble so discard that
 		    if(((mons[i].set&0xf0) != 0x40) || changePromos){
-			//System.out.println(Integer.toHexString(mons[i].set));
 			validMons.add(mons[i]);
 			setList.add(mons[i].set);
 		    }
@@ -282,12 +299,24 @@ public class PTCG1_Randomizer {
 		}
 
 		//randomize setList
+		int promoIndex = 0;
 		Collections.shuffle(setList, rand);
 		for(MonCardData mon : validMons){
 			mon.set = setList.get(0);
+			if ((mon.set&0xf0) == 0x40 && promoIndex < promoCards.length){
+			    promoCards[promoIndex].value = mon.cardConstant;
+			    promoIndex+=1;
+			}
 			setList.remove(0);
 		}
-
+		
+		// Change the hardcoded promo cards
+		for(HardCodedValue v : promoCards){
+		    System.out.println(v.value);
+		    for(int loc : v.locations){
+			rom[loc] = v.value;
+		    }
+		}
 	}
 
 	public void randomizeMoves(boolean keepStage, boolean keepMoveAmount){
