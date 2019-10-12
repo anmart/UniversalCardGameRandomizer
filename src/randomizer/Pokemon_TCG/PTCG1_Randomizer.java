@@ -48,10 +48,17 @@ public class PTCG1_Randomizer {
 	    new HardCodedValue(new int[] {0xe94c, 0xe94e}, 0xCE),    // RONALD 3, SUPER ENERGY RETRIEVAL
 		new HardCodedValue(new int[] {0xdd53, 0xdd55}, 0xC8),    // IMAKUNI?, IMAKUNI?
 		new HardCodedValue(new int[] {0xe107, 0xe109}, 0x37),    // GAL1 (Water Club Lobby), LAPRAS for ARCANINE1
+		new HardCodedValue(new int[] {0xdbc6, 0xdbc8}, 0x65),    // ISHIHARA, CLEFABLE for SURFING_PIKACHU1
+		new HardCodedValue(new int[] {0xdbff, 0xdc01}, 0x64),    // ISHIHARA, DITTO for FLYING_PIKACHU
+		new HardCodedValue(new int[] {0xdc38, 0xdc3a}, 0x66),    // ISHIHARA, CHANSEY for SURFING_PIKACHU2
+
 	};
 
 	HardCodedValue[] tradeCards = new HardCodedValue[]{
 		new HardCodedValue(new int[] {0xe105}, 0x59),            // GAL1 (Water Club Lobby), LAPRAS for ARCANINE1
+		new HardCodedValue(new int[] {0xdbc4}, 0xAC),            // ISHIHARA, CLEFABLE for SURFING_PIKACHU1
+		new HardCodedValue(new int[] {0xdbfd}, 0xBB),            // ISHIHARA, DITTO for FLYING_PIKACHU
+		new HardCodedValue(new int[] {0xdc36}, 0xB8),            // ISHIHARA, CHANSEY for SURFING_PIKACHU2
 	};
 
 	public PTCG1_Randomizer(File game, String seed){
