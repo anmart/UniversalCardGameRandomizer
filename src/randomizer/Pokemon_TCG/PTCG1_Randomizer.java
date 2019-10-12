@@ -46,9 +46,14 @@ public class PTCG1_Randomizer {
 	HardCodedValue[] promoCards = new HardCodedValue[]{
 	    new HardCodedValue(new int[] {0xe8ee, 0xe8f0}, 0xAD),    // RONALD 2, JIGGLYPUFF
 	    new HardCodedValue(new int[] {0xe94c, 0xe94e}, 0xCE),    // RONALD 3, SUPER ENERGY RETRIEVAL
+		new HardCodedValue(new int[] {0xdd53, 0xdd55}, 0xC8),    // IMAKUNI?, IMAKUNI?
+		new HardCodedValue(new int[] {0xe107, 0xe109}, 0x37),    // GAL1 (Water Club Lobby), LAPRAS for ARCANINE1
 	};
-	
-	
+
+	HardCodedValue[] tradeCards = new HardCodedValue[]{
+		new HardCodedValue(new int[] {0xe105}, 0x59),            // GAL1 (Water Club Lobby), LAPRAS for ARCANINE1
+	};
+
 	public PTCG1_Randomizer(File game, String seed){
 
 
