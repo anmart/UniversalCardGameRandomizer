@@ -51,6 +51,10 @@ public class PTCG1_Randomizer {
 		new HardCodedValue(new int[] {0xdbc6, 0xdbc8}, 0x65),    // ISHIHARA, CLEFABLE for SURFING_PIKACHU1
 		new HardCodedValue(new int[] {0xdbff, 0xdc01}, 0x64),    // ISHIHARA, DITTO for FLYING_PIKACHU
 		new HardCodedValue(new int[] {0xdc38, 0xdc3a}, 0x66),    // ISHIHARA, CHANSEY for SURFING_PIKACHU2
+		new HardCodedValue(new int[] {0xd234, 0xd234}, 0x76),    // POKEMON DOME, ZAPDOS3
+		new HardCodedValue(new int[] {0xdbfc, 0xd237}, 0x40),    // POKEMON DOME, MOLTRES2
+		new HardCodedValue(new int[] {0xdc00, 0xd23a}, 0xF5),    // POKEMON DOME, ARTICUNO2
+		new HardCodedValue(new int[] {0xdc02, 0xd23d}, 0xC1),    // POKEMON DOME, DRAGONITE1
 
 	};
 
