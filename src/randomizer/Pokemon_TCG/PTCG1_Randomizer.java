@@ -55,6 +55,7 @@ public class PTCG1_Randomizer {
 		new HardCodedValue(new int[] {0xdbfc, 0xd237}, 0x40),    // POKEMON DOME, MOLTRES2
 		new HardCodedValue(new int[] {0xdc00, 0xd23a}, 0xF5),    // POKEMON DOME, ARTICUNO2
 		new HardCodedValue(new int[] {0xdc02, 0xd23d}, 0xC1),    // POKEMON DOME, DRAGONITE1
+		new HardCodedValue(new int[] {0xee84, 0xee86}, 0x91),    // POKEMON DOME, DRAGONITE1
 
 	};
 
