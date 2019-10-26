@@ -56,6 +56,7 @@ public class PTCG1_Randomizer {
 		new HardCodedValue(new int[] {0xdc00, 0xd23a}, 0xF5),    // POKEMON DOME, ARTICUNO2
 		new HardCodedValue(new int[] {0xdc02, 0xd23d}, 0xC1),    // POKEMON DOME, DRAGONITE1
 		new HardCodedValue(new int[] {0xee84, 0xee86}, 0x91),    // POKEMON DOME, DRAGONITE1
+		new HardCodedValue(new int[] {0xe69b, 0xe69d}, 0x62),    // LASS2, PIKACHU3 for CLEFAIRY
 
 	};
 
@@ -64,6 +65,7 @@ public class PTCG1_Randomizer {
 		new HardCodedValue(new int[] {0xdbc4}, 0xAC),            // ISHIHARA, CLEFABLE for SURFING_PIKACHU1
 		new HardCodedValue(new int[] {0xdbfd}, 0xBB),            // ISHIHARA, DITTO for FLYING_PIKACHU
 		new HardCodedValue(new int[] {0xdc36}, 0xB8),            // ISHIHARA, CHANSEY for SURFING_PIKACHU2
+		new HardCodedValue(new int[] {0xe699}, 0xAB),            // LASS2, PIKACHU3 for CLEFAIRY
 	};
 
 	public PTCG1_Randomizer(File game, String seed){
